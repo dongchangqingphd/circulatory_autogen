@@ -124,6 +124,95 @@
       "experiment_idx": 1,
       "subexperiment_idx": 1,
       "plot_type":"vertical"
+    },
+    {   "variable": "SN/Iso",
+	"data_type":"constant",
+	"operation":"calc_min_to_max_period_diff",
+	"operands":["time", "SN/Iso"],
+	"unit":"nM",
+	"value":0,
+	"weight":1.0,
+	"std":0.1,
+	"plot_type":"None"
+    },
+    {   "variable": "SN/ratio_beta1",
+	"data_type":"constant",
+	"unit":"dimensionless",
+	"value":0.76,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/ratio_beta2",
+	"data_type":"constant",
+	"unit":"dimensionless",
+	"value":0.22,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/Area_betaAR",
+	"data_type":"constant",
+	"unit":"m2",
+	"value":1,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/EC50_beta1",
+	"data_type":"constant",
+	"unit":"nM",
+	"value":4.1,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/EC50_beta2",
+	"data_type":"constant",
+	"unit":"nM",
+	"value":95.1,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/ratio_b1_couple_Gs",
+	"data_type":"constant",
+	"unit":"dimensionless",
+	"value":0.72,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/ratio_b2_couple_Gs",
+	"data_type":"constant",
+	"unit":"dimensionless",
+	"value":0.99,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/ratio_b1_GS",
+	"data_type":"constant",
+	"unit":"dimensionless",
+	"value":1,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/ratio_b2_Gi",
+	"data_type":"constant",
+	"unit":"dimensionless",
+	"value":0.5,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/ratio_EmaxGS",
+	"data_type":"constant",
+	"unit":"dimensionless",
+	"value":7.7,
+	"weight":1.0,
+	"std":0.1
+    },
+    {   "variable": "SN/AC2cAMP_conversion",
+	"data_type":"constant",
+	"unit":"uM",
+	"value":4,
+	"weight":1.0,
+	"std":0.1
     }
   ]
 }
+
+

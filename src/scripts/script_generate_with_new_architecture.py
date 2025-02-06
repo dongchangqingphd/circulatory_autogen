@@ -98,6 +98,7 @@ def generate_with_new_architecture(do_generation_with_fit_parameters,
 if __name__ == '__main__':
     try:
         do_generation_with_fit_parameters = sys.argv[1] in ['true', 'True']
+        print("do_generation_with_fit_parameters:",do_generation_with_fit_parameters)
         generate_with_new_architecture(do_generation_with_fit_parameters)
 
     except:
