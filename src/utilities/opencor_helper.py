@@ -219,5 +219,3 @@ class SimulationHelper():
 
     def close_simulation(self):
         oc.close_simulation(self.simulation)
-
-
