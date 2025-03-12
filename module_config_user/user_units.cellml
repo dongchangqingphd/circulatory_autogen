@@ -83,4 +83,24 @@
         <unit exponent="-1.0" units="kelvin"/>
         <unit exponent="-1.0" units="mole"/>
     </units>
+    <!-- concentration (uM)-->
+    <units name="uM">
+        <unit prefix="micro" units="mole"/>
+        <unit exponent="-1" units="litre"/>
+    </units>
+    <units name="per_uM">
+        <unit exponent="-1" prefix="micro" units="mole"/>
+        <unit exponent="1" units="litre"/>
+    </units>
+    <units name="umeter2">
+        <unit exponent="2" prefix="micro" units="metre"/>
+    </units>
+    <units name="nmol_per_umeter2">
+        <unit exponent="1.0" prefix="nano" units="mole"/>
+        <unit exponent="-2" prefix="micro" units="metre"/>
+    </units>
+    <units name="per_cmeter3">
+        <!--unit litre {mult: 0.001, expo: -1};-->
+        <unit exponent="-3" prefix="centi" units="metre"/>
+    </units>
 </model>

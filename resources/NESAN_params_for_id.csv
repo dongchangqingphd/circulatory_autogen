@@ -1,0 +1,3 @@
+vessel_name,                  param_name,       param_type,       min,        max,    name_for_plotting
+NES,EC50_Gs,        const,0.01,100,EC50_{Gs}
+NES,k_Gi,        const,0.01,10,k_{Gi}
