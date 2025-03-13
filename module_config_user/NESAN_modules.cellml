@@ -154,6 +154,7 @@ universal gas constant-->
         <!--Used to test changes in related currents observed for a specific action potential that given a specific time period-->
     </component>
     <!--**************************SNS/PNS effect SAN cell mechanism****************//-->
+    <!--**************************SNS/PNS effect SAN cell mechanism****************//-->
     <component name="NES_experiments">
         <variable name="t" public_interface="in" units="second"/>
         <variable name="ACh_init" public_interface="in" units="nM"/>
