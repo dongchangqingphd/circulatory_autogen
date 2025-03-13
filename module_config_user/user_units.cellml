@@ -84,10 +84,10 @@
         <unit exponent="-1.0" units="mole"/>
     </units>
     <!-- concentration (uM)-->
-    <units name="uM">
-        <unit prefix="micro" units="mole"/>
-        <unit exponent="-1" units="litre"/>
-    </units>
+    <!--def unit uM as
+    unit mole {pref: micro};
+    unit litre {expo: -1};
+enddef;-->
     <units name="per_uM">
         <unit exponent="-1" prefix="micro" units="mole"/>
         <unit exponent="1" units="litre"/>
@@ -102,5 +102,74 @@
     <units name="per_cmeter3">
         <!--unit litre {mult: 0.001, expo: -1};-->
         <unit exponent="-3" prefix="centi" units="metre"/>
+    </units>
+    <units name="nmole">
+        <unit prefix="nano" units="mole"/>
+    </units>
+    <units name="nM">
+        <unit prefix="nano" units="mole"/>
+        <unit exponent="-1.0" units="litre"/>
+    </units>
+    <units name="nanoA_per_millimolar">
+        <unit exponent="-1.0" units="millimolar"/>
+        <unit units="nanoA"/>
+    </units>
+    <units name="mA_nA">
+        <unit prefix="milli" units="ampere"/>
+        <unit exponent="-1.0" units="nanoA"/>
+    </units>
+    <units name="per_millivolt_second">
+        <unit exponent="-1.0" units="millivolt"/>
+        <unit exponent="-1.0" units="second"/>
+    </units>
+    <units name="millivolt">
+        <unit prefix="milli" units="volt"/>
+    </units>
+    <units name="per_millimolar_second">
+        <unit exponent="-1.0" units="millimolar"/>
+        <unit exponent="-1.0" units="second"/>
+    </units>
+    <units name="millisecond">
+        <unit prefix="milli" units="second"/>
+    </units>
+    <units name="litre_millimetre3">
+        <unit exponent="-1.0" units="millimetre3"/>
+        <unit units="litre"/>
+    </units>
+    <units name="millimetre3">
+        <unit exponent="3.0" prefix="milli" units="metre"/>
+    </units>
+    <units name="micrometre">
+        <unit prefix="micro" units="metre"/>
+    </units>
+    <units name="millimolar_per_second">
+        <unit exponent="-1.0" units="second"/>
+        <unit units="millimolar"/>
+    </units>
+    <units name="per_millimolar2_second">
+        <unit exponent="-2.0" units="millimolar"/>
+        <unit exponent="-1.0" units="second"/>
+    </units>
+    <units name="micrometre_per_femtometre">
+        <unit exponent="-1.0" prefix="femto" units="metre"/>
+        <unit units="micrometre"/>
+    </units>
+    <units name="per_second">
+        <unit exponent="-1.0" units="second"/>
+    </units>
+    <units name="per_millivolt">
+        <unit exponent="-1.0" prefix="milli" units="volt"/>
+    </units>
+    <units name="coulomb_per_mole">
+        <unit exponent="-1.0" units="mole"/>
+        <unit units="coulomb"/>
+    </units>
+    <units name="microF">
+        <unit prefix="micro" units="farad"/>
+    </units>
+    <units name="joule_per_kilomole_kelvin">
+        <unit units="joule"/>
+        <unit exponent="-1.0" units="kelvin"/>
+        <unit exponent="-1.0" prefix="kilo" units="mole"/>
     </units>
 </model>
