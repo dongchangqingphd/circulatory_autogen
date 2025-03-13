@@ -1,11 +1,11 @@
 #_______ general inputs ________
 DEBUG: false
 user_inputs_path_override: false
-file_prefix: 3compartment 
+file_prefix: NESAN 
 # input_param_file must be stored in resources. If first creating a parameters file 
 # set this to parameters_orig.csv and a 
 # parameters file will be generated with spaces for the required parameters
-input_param_file: 3compartment_parameters.csv
+input_param_file: NESAN_parameters.csv
 
 # cpp generation inputs
 # solver options are: RK4, forward_euler, CVODE
@@ -52,7 +52,7 @@ solver_info:
   MaximumNumberOfSteps: 5000
 
 # This for 3compartment
-param_id_obs_path: /home/farg967/Documents/git_projects/circulatory_autogen/resources/3compartment_obs_data.json
+param_id_obs_path: /home/cdon822/Documents/GIT_files/circulatory_autogen/resources/NESAN_obs_data.json
 
 #_______ sensitivity analysis inputs __________
 do_sensitivity: false

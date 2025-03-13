@@ -1,0 +1,9 @@
+vessel_name,                  param_name,       min,        max,    name_for_plotting
+NEs_module,IC50_beta2,1000,100000,IC50_{beta2}
+NEs_module,IC50_M2,0.01,100,IC50_{M2}
+NEs_module,k_M2bindGi,0.01,0.99,k_{M2bindGI}
+NEs_module,T_PKAPbeta2,0.1,0.99,T_{PKAPbeta2}
+NEs_module,CaMKII,0.1,100,CaMKII_{basal}
+NEs_module,EC50_Gs,0.01,100,EC50_{Gs}
+NEs_module,k_Gi,0.01,10,k_{Gi}
+NEs_module,AC2cAMP_conversion,0.01,100,AC2cAMP_{conversion}

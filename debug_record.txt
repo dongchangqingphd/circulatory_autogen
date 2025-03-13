@@ -1,0 +1,9 @@
+NOTICE: 
+1) if 2 vessels share the same parameter, such as vessel_1 output p1 convey to vessel_2, and in vessel_2 ‘variables_and_units’, the type of p1 cannot ‘variable’ or ‘constant’, it should be ‘boundary_condition’;
+2)if vessel_1 and vessel_2 share [v1, v2] 2 parameters, in vessel_2, v1 is calculated result, v2 is input result, so in vessel_1 v1 is input result, v2 is output result, then they can share vessel_port in vessel_1 entrance port, in vessel_2 as exit port;
+3) if everything is fine, the parameters and connection relationship set correct as above, the ‘run_autogenertic.py’ script can generate model files in a specific address (set in user_inputs.yaml), and if ‘modelname.cellml’ file can open well and simulation in OpenCOR, and ‘[file_modelname]_params_for_id.csv’ and ‘[file_modelname]_obs_data.json’ also set well, the ‘run_param_id.sh’ script can automatically calibrate preset parameters;
+4) if ‘plot_param.id.sh’ script cannot run or report an error, do not check the responding error, usually an error in ‘[file_modelname]_obs_data.json file’!!!, and often is the issue such as lack a comma;
+5) there is a bug in ‘paramID.py’ file, if the ground true value that I want to calibrate parameter is not a variable during the time, is just a value, it will not automatically generate an array as time changes, so maybe cannot plot the final results, need to add an ODE with time and multiply with 0 in model code, to make sure the generated result is also an array;
+6) remember, if vessel_x can convey variable_v to many different vessels, must add "multi_port":"True" in the ‘module_config.json’ file;
+
+
