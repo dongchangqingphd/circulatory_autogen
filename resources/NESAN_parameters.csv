@@ -19,8 +19,8 @@ PDE_cAMP_NES,uM,0,to_be_identified
 ACCa_max_NES,nmol_per_umeter2,1,to_be_identified
 Area_Ca_NES,umeter2,1,user_defined
 EC50_Ca_NES,nM,8,to_be_identified
-CaMKII_NES,nM,6.4,to_be_identified
-AC2cAMP_conversion_NES,per_cmeter3,2.7,to_be_identified
+CaMKII_NES,nM,1,to_be_identified
+AC2cAMP_conversion_NES,per_cmeter3,3.02,to_be_identified
 M2_max_NES,nmol_per_umeter2,1,to_be_identified
 Area_M2R_NES,umeter2,1,user_defined
 IC50_M2_NES,nM,9.8,to_be_identified
@@ -37,8 +37,8 @@ PKA_init_NES,dimensionless,0,user_defined
 T_PKAPbeta2_NES,dimensionless,0.7,user_defined
 k_b2coupleGi_NES,dimensionless,0.99,Wollemann_1975
 k_b2coupleGs_NES,dimensionless,0.99,Wollemann_1975
-EC50_Gs_NES,nmole,6.5259044548e-01,13_03_2025_identified
-k_Gi_NES,dimensionless,1.1606412360e+00,13_03_2025_identified
+EC50_Gs_NES,nmole,0.65259044548,13_03_2025_identified
+k_Gi_NES,dimensionless,1.160641236,13_03_2025_identified
 AC_maxstimulated_NES,nmole,7.7,to_be_identified
 T_cAMPPKA_NES,uM,25.87,Linder_2024
 ACh_init_NES,nM,0,user_defined
