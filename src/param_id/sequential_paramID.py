@@ -87,7 +87,7 @@ class SequentialParamID:
         # TODO delete the below
 
         #### TODO to here
-
+        print("[debug]into sequential_paramID.py")
         buf = np.array([False])
         identifiable = buf[0]
         num_params_to_remove_buf = np.array([0])

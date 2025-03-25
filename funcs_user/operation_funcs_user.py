@@ -96,6 +96,7 @@ def calc_spike_period(t, V, series_output=False):
         period = np.sum([t[peak_idxs[II+1]] - t[peak_idxs[II]] for II in range(len(peak_idxs)-1)])/(len(peak_idxs) - 1)
     return period
 
+
 @series_to_constant
 def calc_spike_frequency_windowed(t, V, series_output=False, spike_min_thresh=-10):
     """
@@ -303,6 +304,30 @@ def min_first_quarter(x, series_output=False):
         first_quarter_values = x[:quarter_len]
         return np.min(first_quarter_values)
 
+
+#calculate mean voltage in every period
+def calc_period_mean_voltage(t, V, series_output=False):
+    if series_output:
+        return V
+    peak_idxs, peak_properties = find_peaks(V)
+    # TODO maybe check peak properties here
+    if len(peak_idxs) < 2:
+        # there aren't enough peaks to calculate a period
+        # so set the period to the max time of the simulation
+        period = t[-1] - t[0]
+        startv = 0
+        endv = 0
+    else:
+        # calculate the average period between peaks
+        period = np.sum([t[peak_idxs[II+1]] - t[peak_idxs[II]] for II in range(len(peak_idxs)-1)])/(len(peak_idxs) - 1)
+        
+        startv = peak_idxs[0]
+        endv = peak_idxs[len(peak_idxs)-1]
+    V_period = V[startv:endv]
+    
+    V_mean = np.mean(V_period)
+    
+    return V_mean    
 
 
 

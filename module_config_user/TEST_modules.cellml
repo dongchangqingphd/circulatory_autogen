@@ -1,0 +1,1507 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="modules" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#">
+    <!-- Your code goes here-->
+    <component name="HH_simple">
+        <!--Faraday constant-->
+        <variable name="C" public_interface="in" units="microF"/>
+        <!--R*T/F-->
+        <variable name="t" public_interface="in" units="second"/>
+        <!--just time-->
+        <variable name="i_f" public_interface="in" units="nanoA"/>
+        <!--declare funny current-->
+        <!--declare recitifier current -->
+        <variable name="V_init" public_interface="in" units="millivolt"/>
+        <variable initial_value="V_init" name="V" public_interface="out" units="millivolt"/>
+        <!--declare action potential variable-->
+        <!--declare and initilize the V_ode variable-->
+        <variable name="i_tot" public_interface="out" units="nanoA"/>
+        <!--declare a total current variable-->
+        <!--declare a variable that effect of incoming spikes from synapses on the neuron's membrane potential-->
+        <!--i_tot = i_f+i_Kr+i_Ks+i_to+i_NaK+i_NaCa+i_Na+i_CaL+i_CaT+i_KACh+i_Kur-g;-->
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>i_tot</ci>
+                <apply>
+                    <times/>
+                    <ci>i_f</ci>
+                    <cn cellml:units="dimensionless">1.0</cn>
+                </apply>
+            </apply>
+            <!--i_tot = i_f+i_NaCa+i_CaL+i_CaT+i_Kr+i_Ks;
+classic formula-->
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>V</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>i_tot</ci>
+                    </apply>
+                    <ci>C</ci>
+                </apply>
+            </apply>
+        </math>
+        <!--if preset 1, never use differential formula to calculate the action potential-->
+    </component>
+    <component name="NES_experiments">
+        <variable name="t" public_interface="in" units="second"/>
+        <variable name="ACh_init" public_interface="in" units="nM"/>
+        <variable initial_value="ACh_init" name="ACh" public_interface="out" units="nM"/>
+        <variable name="ISO_init" public_interface="in" units="nM"/>
+        <variable initial_value="ISO_init" name="ISO" public_interface="out" units="nM"/>
+        <variable initial_value="2000" name="test_transp" public_interface="out" units="dimensionless"/>
+        <variable name="cAMP_nif" public_interface="out" units="uM"/>
+        <variable name="PDE_cAMP" public_interface="in" units="uM"/>
+        <!--basal CaMKII mechanism maintain basal cAMP/Ca ion balance in cell-->
+        <variable name="cAMP_basal" public_interface="out" units="uM"/>
+        <variable name="AC_basal" public_interface="out" units="nmole"/>
+        <variable name="ACCa_max" public_interface="in" units="nmol_per_umeter2"/>
+        <variable name="Area_Ca" public_interface="in" units="umeter2"/>
+        <variable name="EC50_Ca" public_interface="in" units="nM"/>
+        <variable name="CaMKII" public_interface="in" units="nM"/>
+        <variable name="AC2cAMP_conversion" public_interface="in" units="per_cmeter3"/>
+        <!--ACh bind M2R process-->
+        <variable name="M2_max" public_interface="in" units="nmol_per_umeter2"/>
+        <variable name="M2R" public_interface="out" units="nmole"/>
+        <variable name="Area_M2R" public_interface="in" units="umeter2"/>
+        <variable name="IC50_M2" public_interface="in" units="nM"/>
+        <variable name="k_M2bindGi" public_interface="in" units="dimensionless"/>
+        <variable name="Gi_M2" public_interface="out" units="nmole"/>
+        <!--ISO bind beta-AR process-->
+        <variable name="beta_ntotal" public_interface="in" units="nmol_per_umeter2"/>
+        <variable name="k_beta1" public_interface="in" units="dimensionless"/>
+        <variable name="K_beta2" public_interface="in" units="dimensionless"/>
+        <variable name="beta1_max" public_interface="out" units="nmol_per_umeter2"/>
+        <variable name="beta2_max" public_interface="out" units="nmol_per_umeter2"/>
+        <variable name="Area_betaAR" public_interface="in" units="umeter2"/>
+        <variable name="EC50_beta1" public_interface="in" units="nM"/>
+        <variable name="beta1_actived" public_interface="out" units="nmole"/>
+        <variable name="EC50_beta2" public_interface="in" units="nM"/>
+        <variable name="beta2_actived" public_interface="out" units="nmole"/>
+        <variable name="IC50_beta2" public_interface="in" units="nM"/>
+        <variable name="beta2_inhibited" public_interface="out" units="nmole"/>
+        <variable name="k_b1coupleGs" public_interface="in" units="dimensionless"/>
+        <variable name="Gs_beta1" public_interface="out" units="nmole"/>
+        <!--high ISO lead to beta2-AR bind Gi-->
+        <variable name="PKA_init" public_interface="in" units="dimensionless"/>
+        <variable initial_value="PKA_init" name="PKA" public_interface="out" units="dimensionless"/>
+        <variable name="T_PKAPbeta2" public_interface="in" units="dimensionless"/>
+        <variable name="Gi_beta2" public_interface="out" units="nmole"/>
+        <variable name="k_b2coupleGi" public_interface="in" units="dimensionless"/>
+        <variable name="Gs_beta2" public_interface="out" units="nmole"/>
+        <variable name="k_b2coupleGs" public_interface="in" units="dimensionless"/>
+        <variable name="GS_total" public_interface="out" units="nmole"/>
+        <variable name="Gi_total" public_interface="out" units="nmole"/>
+        <variable name="EC50_Gs" public_interface="in" units="nmole"/>
+        <variable name="k_Gi" public_interface="in" units="dimensionless"/>
+        <variable name="AC_maxstimulated" public_interface="in" units="nmole"/>
+        <variable name="AC_actived" public_interface="out" units="nmole"/>
+        <variable name="cAMP" public_interface="out" units="uM"/>
+        <variable name="T_cAMPPKA" public_interface="in" units="uM"/>
+        <variable name="PKA_new" public_interface="out" units="dimensionless"/>
+        <!--//*****************simplified equations about Ca to cAMP basal********************////-->
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>AC_basal</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>ACCa_max</ci>
+                        <ci>Area_Ca</ci>
+                        <apply>
+                            <power/>
+                            <ci>CaMKII</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>EC50_Ca</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>CaMKII</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>cAMP_basal</ci>
+                <apply>
+                    <times/>
+                    <ci>AC2cAMP_conversion</ci>
+                    <ci>AC_basal</ci>
+                </apply>
+            </apply>
+            <!--//*****************simplified equations about ACh to Gi********************////-->
+            <apply>
+                <eq/>
+                <ci>M2R</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>M2_max</ci>
+                        <ci>Area_M2R</ci>
+                        <apply>
+                            <power/>
+                            <ci>ACh</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>IC50_M2</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ACh</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Gi_M2</ci>
+                <apply>
+                    <times/>
+                    <ci>M2R</ci>
+                    <ci>k_M2bindGi</ci>
+                </apply>
+            </apply>
+            <!--//*****************simplified equations about ISO to Gs/Gi********************////
+1st step, calculate the maximum beta1-AR proportion/number in total beta-AR of SAN cell-->
+            <apply>
+                <eq/>
+                <ci>beta1_max</ci>
+                <apply>
+                    <times/>
+                    <ci>beta_ntotal</ci>
+                    <ci>k_beta1</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>beta2_max</ci>
+                <apply>
+                    <times/>
+                    <ci>beta_ntotal</ci>
+                    <ci>K_beta2</ci>
+                </apply>
+            </apply>
+            <!--from ISO to beta-AR relationship, reference HILL equation as previous paper:<PHARMACOLOGICAL CHARACTERIZATION OF THE POST JUNCTIONAL 13-ADRENOCEPTORS IN THE RAT GASTRIC FUNDUS>-->
+            <apply>
+                <eq/>
+                <ci>beta1_actived</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>beta1_max</ci>
+                        <ci>Area_betaAR</ci>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>EC50_beta1</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>beta2_actived</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>beta2_max</ci>
+                        <ci>Area_betaAR</ci>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>EC50_beta2</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>beta2_inhibited</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>beta2_max</ci>
+                        <ci>Area_betaAR</ci>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>IC50_beta2</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Gs_beta1</ci>
+                <apply>
+                    <times/>
+                    <ci>beta1_actived</ci>
+                    <ci>k_b1coupleGs</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Gi_beta2</ci>
+                <piecewise>
+                    <piece>
+                        <cn cellml:units="nmole">0</cn>
+                        <apply>
+                            <lt/>
+                            <ci>PKA</ci>
+                            <ci>T_PKAPbeta2</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <times/>
+                            <ci>beta2_inhibited</ci>
+                            <ci>k_b2coupleGi</ci>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--total number of beta2-AR is limited, so, some beta2-AR phosphorylated, less Gs protein actived-->
+            <apply>
+                <eq/>
+                <ci>Gs_beta2</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <times/>
+                            <ci>beta2_actived</ci>
+                            <ci>k_b2coupleGs</ci>
+                        </apply>
+                        <apply>
+                            <lt/>
+                            <ci>PKA</ci>
+                            <ci>T_PKAPbeta2</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <times/>
+                                <ci>beta2_actived</ci>
+                                <ci>k_b2coupleGs</ci>
+                            </apply>
+                            <apply>
+                                <times/>
+                                <ci>beta2_inhibited</ci>
+                                <ci>k_b2coupleGi</ci>
+                            </apply>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--//*****************simplified equations about Gs/Gi to AC********************////-->
+            <apply>
+                <eq/>
+                <ci>GS_total</ci>
+                <apply>
+                    <plus/>
+                    <ci>Gs_beta1</ci>
+                    <ci>Gs_beta2</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Gi_total</ci>
+                <apply>
+                    <plus/>
+                    <ci>Gi_beta2</ci>
+                    <ci>Gi_M2</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>AC_actived</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>AC_maxstimulated</ci>
+                        <ci>GS_total</ci>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <ci>EC50_Gs</ci>
+                        <ci>GS_total</ci>
+                        <apply>
+                            <times/>
+                            <ci>k_Gi</ci>
+                            <ci>Gi_total</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <!--//*****************simplified equations about AC to catalyze cAMP********************////-->
+            <apply>
+                <eq/>
+                <ci>cAMP</ci>
+                <apply>
+                    <times/>
+                    <ci>AC2cAMP_conversion</ci>
+                    <ci>AC_actived</ci>
+                </apply>
+            </apply>
+            <!--//*****************simplified equations about total cAMP product********************////-->
+            <apply>
+                <eq/>
+                <ci>cAMP_nif</ci>
+                <apply>
+                    <times/>
+                    <apply>
+                        <plus/>
+                        <ci>PDE_cAMP</ci>
+                        <ci>cAMP_basal</ci>
+                        <ci>cAMP</ci>
+                    </apply>
+                    <cn cellml:units="dimensionless">1</cn>
+                </apply>
+            </apply>
+            <!--//*****************simplified equation parameters about cAMP to PKA********************////
+therefore, the PKA range is [0.0296->0.808->0.9922] while cAMP from 0 to infinity-->
+            <apply>
+                <eq/>
+                <ci>PKA_new</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <plus/>
+                            <apply>
+                                <times/>
+                                <apply>
+                                    <minus/>
+                                    <cn cellml:units="dimensionless">0.9483</cn>
+                                </apply>
+                                <apply>
+                                    <exp/>
+                                    <apply>
+                                        <times/>
+                                        <apply>
+                                            <minus/>
+                                            <cn cellml:units="per_uM">1</cn>
+                                        </apply>
+                                        <ci>cAMP_nif</ci>
+                                        <cn cellml:units="dimensionless">0.0656</cn>
+                                    </apply>
+                                </apply>
+                            </apply>
+                            <cn cellml:units="dimensionless">0.9778</cn>
+                        </apply>
+                        <apply>
+                            <lt/>
+                            <ci>cAMP_nif</ci>
+                            <ci>T_cAMPPKA</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <plus/>
+                            <apply>
+                                <times/>
+                                <apply>
+                                    <minus/>
+                                    <cn cellml:units="dimensionless">0.4526</cn>
+                                </apply>
+                                <apply>
+                                    <exp/>
+                                    <apply>
+                                        <times/>
+                                        <apply>
+                                            <minus/>
+                                            <cn cellml:units="per_uM">1</cn>
+                                        </apply>
+                                        <ci>cAMP_nif</ci>
+                                        <cn cellml:units="dimensionless">0.0340</cn>
+                                    </apply>
+                                </apply>
+                            </apply>
+                            <cn cellml:units="dimensionless">0.9922</cn>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+        </math>
+    </component>
+    <component name="Rate_modulation_experiments">
+        <variable name="t" public_interface="in" units="second"/>
+        <variable name="ACh_init" public_interface="in" units="nM"/>
+        <variable initial_value="ACh_init" name="ACh" public_interface="out" units="nM"/>
+        <variable name="ISO_init" public_interface="in" units="nM"/>
+        <variable initial_value="ISO_init" name="ISO" public_interface="out" units="nM"/>
+        <variable name="AC2cAMP_conversion" public_interface="in" units="per_cmeter3"/>
+        <variable name="Area_betaAR" public_interface="in" units="umeter2"/>
+        <variable name="ISO_max" public_interface="in" units="nM"/>
+        <variable name="ISO_high" public_interface="in" units="nM"/>
+        <variable name="EC50_beta1" public_interface="in" units="nM"/>
+        <variable name="EC50_beta2" public_interface="in" units="nM"/>
+        <variable name="IC50_beta2" public_interface="in" units="nM"/>
+        <variable name="k_beta1" public_interface="in" units="dimensionless"/>
+        <variable name="K_beta2" public_interface="in" units="dimensionless"/>
+        <variable name="AC_maxstimulated" public_interface="in" units="nmole"/>
+        <variable name="k_b1coupleGs" public_interface="in" units="dimensionless"/>
+        <variable name="k_b2coupleGs" public_interface="in" units="dimensionless"/>
+        <variable name="k_b2coupleGi" public_interface="in" units="dimensionless"/>
+        <variable name="beta_ntotal" public_interface="in" units="nmol_per_umeter2"/>
+        <variable name="beta1_max" public_interface="out" units="nmol_per_umeter2"/>
+        <variable name="beta2_max" public_interface="out" units="nmol_per_umeter2"/>
+        <variable name="n_iter" public_interface="in" units="dimensionless"/>
+        <variable name="cAMP_nif" public_interface="out" units="uM"/>
+        <variable name="T_cAMPPKA" public_interface="in" units="uM"/>
+        <variable name="T_PKAPbeta2" public_interface="in" units="dimensionless"/>
+        <variable name="beta1_actived" public_interface="out" units="nmole"/>
+        <variable name="beta2_actived" public_interface="out" units="nmole"/>
+        <variable name="beta2_inhibited" public_interface="out" units="nmole"/>
+        <variable name="Gs_beta1" public_interface="out" units="nmole"/>
+        <variable name="Gs_beta2" public_interface="out" units="nmole"/>
+        <variable name="Gi_beta2" public_interface="out" units="nmole"/>
+        <variable name="cAMP" public_interface="out" units="uM"/>
+        <variable name="PDE_cAMP" public_interface="in" units="uM"/>
+        <variable name="PKA_init" public_interface="in" units="dimensionless"/>
+        <variable initial_value="PKA_init" name="PKA" public_interface="out" units="dimensionless"/>
+        <variable name="M2_max" public_interface="in" units="nmol_per_umeter2"/>
+        <variable name="M2R" public_interface="out" units="nmole"/>
+        <variable name="Area_M2R" public_interface="in" units="umeter2"/>
+        <variable name="IC50_M2" public_interface="in" units="nM"/>
+        <variable name="Gi_M2" public_interface="out" units="nmole"/>
+        <variable name="k_M2bindGi" public_interface="in" units="dimensionless"/>
+        <variable name="GS_total" public_interface="out" units="nmole"/>
+        <variable name="Gi_total" public_interface="out" units="nmole"/>
+        <variable name="EC50_Gs" public_interface="in" units="nmole"/>
+        <variable name="k_Gi" public_interface="in" units="dimensionless"/>
+        <variable name="AC_actived" public_interface="out" units="nmole"/>
+        <variable name="cAMP_basal" public_interface="out" units="uM"/>
+        <variable name="AC_basal" public_interface="out" units="nmole"/>
+        <variable name="ACCa_max" public_interface="in" units="nmol_per_umeter2"/>
+        <variable name="Area_Ca" public_interface="in" units="umeter2"/>
+        <variable name="EC50_Ca" public_interface="in" units="nM"/>
+        <variable name="CaMKII" public_interface="in" units="nM"/>
+        <!--//*****************simplified equations about Ca to cAMP basal********************////-->
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>AC_basal</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>ACCa_max</ci>
+                        <ci>Area_Ca</ci>
+                        <apply>
+                            <power/>
+                            <ci>CaMKII</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>EC50_Ca</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>CaMKII</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>cAMP_basal</ci>
+                <apply>
+                    <times/>
+                    <ci>AC2cAMP_conversion</ci>
+                    <ci>AC_basal</ci>
+                </apply>
+            </apply>
+            <!--//*****************simplified equations about ACh to Gi********************////-->
+            <apply>
+                <eq/>
+                <ci>M2R</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>M2_max</ci>
+                        <ci>Area_M2R</ci>
+                        <apply>
+                            <power/>
+                            <ci>ACh</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>IC50_M2</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ACh</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Gi_M2</ci>
+                <apply>
+                    <times/>
+                    <ci>M2R</ci>
+                    <ci>k_M2bindGi</ci>
+                </apply>
+            </apply>
+            <!--cAMP = AC2cAMP_conversion*AC_actived;-->
+            <!--//*****************simplified equations about ISO to Gs/Gi********************////
+1st step, calculate the maximum beta1-AR proportion/number in total beta-AR of SAN cell-->
+            <apply>
+                <eq/>
+                <ci>beta1_max</ci>
+                <apply>
+                    <times/>
+                    <ci>beta_ntotal</ci>
+                    <ci>k_beta1</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>beta2_max</ci>
+                <apply>
+                    <times/>
+                    <ci>beta_ntotal</ci>
+                    <ci>K_beta2</ci>
+                </apply>
+            </apply>
+            <!--from ISO to beta-AR relationship, reference HILL equation as previous paper:<PHARMACOLOGICAL CHARACTERIZATION OF THE POST JUNCTIONAL 13-ADRENOCEPTORS IN THE RAT GASTRIC FUNDUS>-->
+            <apply>
+                <eq/>
+                <ci>beta1_actived</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>beta1_max</ci>
+                        <ci>Area_betaAR</ci>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>EC50_beta1</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <!--for beta2-AR coupled with Gi,based on this paper: <Aryloxypropanolamine and Catecholamine Ligand Interactions with the β1-Adrenergic Receptor: Evidence for Interaction with Distinct Conformations of β1-Adrenergic Receptors>-->
+            <apply>
+                <eq/>
+                <ci>beta2_actived</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>beta2_max</ci>
+                        <ci>Area_betaAR</ci>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>EC50_beta2</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>beta2_inhibited</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>beta2_max</ci>
+                        <ci>Area_betaAR</ci>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <apply>
+                            <power/>
+                            <ci>IC50_beta2</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <power/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Gs_beta1</ci>
+                <apply>
+                    <times/>
+                    <ci>beta1_actived</ci>
+                    <ci>k_b1coupleGs</ci>
+                </apply>
+            </apply>
+            <!--Gs_beta2 = beta2_actived*k_b2coupleGs;-->
+            <apply>
+                <eq/>
+                <ci>Gi_beta2</ci>
+                <piecewise>
+                    <piece>
+                        <cn cellml:units="nmole">0</cn>
+                        <apply>
+                            <lt/>
+                            <ci>PKA</ci>
+                            <ci>T_PKAPbeta2</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <times/>
+                            <ci>beta2_inhibited</ci>
+                            <ci>k_b2coupleGi</ci>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--total number of beta2-AR is limited, so, some beta2-AR phosphorylated, less Gs protein actived-->
+            <apply>
+                <eq/>
+                <ci>Gs_beta2</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <times/>
+                            <ci>beta2_actived</ci>
+                            <ci>k_b2coupleGs</ci>
+                        </apply>
+                        <apply>
+                            <lt/>
+                            <ci>PKA</ci>
+                            <ci>T_PKAPbeta2</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <times/>
+                                <ci>beta2_actived</ci>
+                                <ci>k_b2coupleGs</ci>
+                            </apply>
+                            <apply>
+                                <times/>
+                                <ci>beta2_inhibited</ci>
+                                <ci>k_b2coupleGi</ci>
+                            </apply>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--//*****************simplified equations about Gs/Gi to AC********************////-->
+            <apply>
+                <eq/>
+                <ci>GS_total</ci>
+                <apply>
+                    <plus/>
+                    <ci>Gs_beta1</ci>
+                    <ci>Gs_beta2</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Gi_total</ci>
+                <apply>
+                    <plus/>
+                    <ci>Gi_beta2</ci>
+                    <ci>Gi_M2</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>AC_actived</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>AC_maxstimulated</ci>
+                        <ci>GS_total</ci>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <ci>EC50_Gs</ci>
+                        <ci>GS_total</ci>
+                        <apply>
+                            <times/>
+                            <ci>k_Gi</ci>
+                            <ci>Gi_total</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <!--//*****************simplified equations about AC to cAMP********************////
+cAMP = cAMP_tmax*pow(AC_final, n_iter)/(pow(EC50_AC, n_iter)+pow(AC_final, n_iter));-->
+            <apply>
+                <eq/>
+                <ci>cAMP</ci>
+                <apply>
+                    <times/>
+                    <ci>AC2cAMP_conversion</ci>
+                    <ci>AC_actived</ci>
+                </apply>
+            </apply>
+            <!--this is the hypothesis equation about Iso_concentrations control cAMP concentrations
+the equation based on 2 papers: <Kinetic analysis of endogenous β2-adrenoceptor-mediated  cAMP GloSensorTM responses in HEK293 cells>,<Isoprenaline: A Potential Contributor in Sick Sinus Syndrome—Insights from a Mathematical Model of the Rabbit Sinoatrial Node>
+cAMP_nif = cAMP_max*pow(Iso_1_nM, n_iter)/(pow(EC_halfmax, n_iter)+pow(Iso_1_nM, n_iter));-->
+            <!--2 different cascade control mechanism about ISO to cAMP
+cAMP_nif = cAMP_max*pow(AC_total, n_iter)/(pow(K_dA, n_iter)+pow(AC_total, n_iter));-->
+            <apply>
+                <eq/>
+                <ci>cAMP_nif</ci>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <plus/>
+                        <ci>cAMP</ci>
+                        <ci>cAMP_basal</ci>
+                    </apply>
+                    <ci>PDE_cAMP</ci>
+                </apply>
+            </apply>
+            <!--Iso_1_nM = ISO;-->
+            <!--//*****************simplified equation parameters about cAMP to PKA********************////
+therefore, the PKA range is [0.0296->0.808->0.9922] while cAMP from 0 to infinity-->
+            <apply>
+                <eq/>
+                <ci>PKA</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <plus/>
+                            <apply>
+                                <times/>
+                                <apply>
+                                    <minus/>
+                                    <cn cellml:units="dimensionless">0.9483</cn>
+                                </apply>
+                                <apply>
+                                    <exp/>
+                                    <apply>
+                                        <times/>
+                                        <apply>
+                                            <minus/>
+                                            <cn cellml:units="per_uM">1</cn>
+                                        </apply>
+                                        <ci>cAMP_nif</ci>
+                                        <cn cellml:units="dimensionless">0.0656</cn>
+                                    </apply>
+                                </apply>
+                            </apply>
+                            <cn cellml:units="dimensionless">0.9778</cn>
+                        </apply>
+                        <apply>
+                            <lt/>
+                            <ci>cAMP_nif</ci>
+                            <ci>T_cAMPPKA</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <plus/>
+                            <apply>
+                                <times/>
+                                <apply>
+                                    <minus/>
+                                    <cn cellml:units="dimensionless">0.4526</cn>
+                                </apply>
+                                <apply>
+                                    <exp/>
+                                    <apply>
+                                        <times/>
+                                        <apply>
+                                            <minus/>
+                                            <cn cellml:units="per_uM">1</cn>
+                                        </apply>
+                                        <ci>cAMP_nif</ci>
+                                        <cn cellml:units="dimensionless">0.0340</cn>
+                                    </apply>
+                                </apply>
+                            </apply>
+                            <cn cellml:units="dimensionless">0.9922</cn>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+        </math>
+        <!--if preset 1, never use differential formula to calculate the action potential-->
+    </component>
+    <component name="i_f">
+        <!--var ACh: millimolar {pub: in};-->
+        <!--var ISO: nM {pub: in};-->
+        <variable name="i_f" public_interface="out" units="nanoA"/>
+        <variable name="i_fNa" public_interface="out" units="nanoA"/>
+        <variable name="E_Na" public_interface="in" units="millivolt"/>
+        <variable name="E_K" public_interface="in" units="millivolt"/>
+        <variable name="i_fK" public_interface="out" units="nanoA"/>
+        <variable name="g_f" public_interface="in" units="microS"/>
+        <variable name="G_f" public_interface="out" units="microS"/>
+        <variable name="g_f_Na" public_interface="out" units="microS"/>
+        <variable name="G_f_Na" public_interface="out" units="microS"/>
+        <variable name="g_f_K" public_interface="out" units="microS"/>
+        <variable name="G_f_K" public_interface="out" units="microS"/>
+        <variable name="Km_f" public_interface="in" units="millimolar"/>
+        <variable name="alpha" public_interface="in" units="dimensionless"/>
+        <variable name="t" public_interface="in" units="second"/>
+        <variable name="V" public_interface="in" units="millivolt"/>
+        <!--var RTONF: millivolt {pub: in};-->
+        <variable name="Ko" public_interface="in" units="millimolar"/>
+        <!--var{i_f.y} y: dimensionless {priv: in};-->
+        <variable name="y" public_interface="in" units="dimensionless"/>
+        <!--in here, add a new variable parameter-->
+        <!--var cAMP_nif: uM {pub: in};-->
+        <!--add a blockade variable that could control in the experiments-->
+        <variable name="blockade" public_interface="in" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>G_f</ci>
+                <apply>
+                    <divide/>
+                    <ci>g_f</ci>
+                    <apply>
+                        <divide/>
+                        <ci>Ko</ci>
+                        <apply>
+                            <plus/>
+                            <ci>Ko</ci>
+                            <ci>Km_f</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>G_f_K</ci>
+                <apply>
+                    <divide/>
+                    <ci>G_f</ci>
+                    <apply>
+                        <plus/>
+                        <ci>alpha</ci>
+                        <cn cellml:units="dimensionless">1</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>G_f_Na</ci>
+                <apply>
+                    <times/>
+                    <ci>alpha</ci>
+                    <ci>G_f_K</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>g_f_Na</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>G_f_Na</ci>
+                        <ci>Ko</ci>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <ci>Ko</ci>
+                        <ci>Km_f</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>g_f_K</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>G_f_K</ci>
+                        <ci>Ko</ci>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <ci>Ko</ci>
+                        <ci>Km_f</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>i_fNa</ci>
+                <apply>
+                    <times/>
+                    <ci>y</ci>
+                    <ci>g_f_Na</ci>
+                    <apply>
+                        <minus/>
+                        <ci>V</ci>
+                        <ci>E_Na</ci>
+                    </apply>
+                    <apply>
+                        <minus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <ci>blockade</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>i_fK</ci>
+                <apply>
+                    <times/>
+                    <ci>y</ci>
+                    <ci>g_f_K</ci>
+                    <apply>
+                        <minus/>
+                        <ci>V</ci>
+                        <ci>E_K</ci>
+                    </apply>
+                    <apply>
+                        <minus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <ci>blockade</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <!--according to the definition, I_f peak position should around action potential hyperpolarization position, but in the simulation result, not match!!!
+it dependence on the coefficient 'tau_y'-->
+            <apply>
+                <eq/>
+                <ci>i_f</ci>
+                <apply>
+                    <plus/>
+                    <ci>i_fNa</ci>
+                    <ci>i_fK</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="i_f_y_gate">
+        <variable name="y_init" public_interface="in" units="dimensionless"/>
+        <variable initial_value="y_init" name="y" public_interface="out" units="dimensionless"/>
+        <variable name="tau_y" public_interface="out" units="second"/>
+        <!--??-->
+        <variable name="y_infinity" public_interface="out" units="dimensionless"/>
+        <!--??-->
+        <variable name="V" public_interface="in" units="millivolt"/>
+        <!--??-->
+        <variable name="t" public_interface="in" units="second"/>
+        <variable name="ACh_shift" public_interface="out" units="millivolt"/>
+        <variable name="ACh" public_interface="in" units="millimolar"/>
+        <!--var ISO: nM {pub: in};-->
+        <variable name="Iso_shift" public_interface="out" units="millivolt"/>
+        <!--??-->
+        <variable name="Iso_shift2" public_interface="out" units="millivolt"/>
+        <!--??-->
+        <variable name="K_If" public_interface="in" units="millivolt"/>
+        <variable name="K05_If" public_interface="in" units="uM"/>
+        <!--those 2 parameters add for new Iso_shift equation, cAMP_nif is cAMP's concentration(activated by AC, transformed by ATP, and b-AR activate AC)-->
+        <variable name="cAMP_nif" public_interface="in" units="uM"/>
+        <variable initial_value="0" name="cAMP_out" public_interface="out" units="dimensionless"/>
+        <variable name="cAMP_out2" public_interface="out" units="uM"/>
+        <!--??-->
+        <!--this variable parameter preset value just temporary, and I think use this value will make the result more closely-->
+        <variable name="cAMP_iter" public_interface="in" units="dimensionless"/>
+        <!--var cAMP_iter: dimensionless {init: 1};
+I don't know why consider y_shift-->
+        <variable name="y_shift" public_interface="in" units="millivolt"/>
+        <!--the EC50=1.26E-8M(close), max=-7.2,nf=0.69(close) in rabbit SAN cell, based on<Analysis of the Chronotropic Effect of Acetylcholine on Sinoatrial Node Cells>-->
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>ACh_shift</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <minus/>
+                                <cn cellml:units="millivolt">1</cn>
+                            </apply>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <times/>
+                                    <cn cellml:units="millivolt">9.898</cn>
+                                    <apply>
+                                        <power/>
+                                        <apply>
+                                            <times/>
+                                            <cn cellml:units="per_millimolar">1</cn>
+                                            <ci>ACh</ci>
+                                        </apply>
+                                        <cn cellml:units="dimensionless">0.618</cn>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <plus/>
+                                    <apply>
+                                        <power/>
+                                        <apply>
+                                            <times/>
+                                            <cn cellml:units="per_millimolar">1</cn>
+                                            <ci>ACh</ci>
+                                        </apply>
+                                        <cn cellml:units="dimensionless">0.618</cn>
+                                    </apply>
+                                    <cn cellml:units="dimensionless">0.00122423</cn>
+                                </apply>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <gt/>
+                            <ci>ACh</ci>
+                            <cn cellml:units="millimolar">0</cn>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <cn cellml:units="millivolt">0</cn>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>cAMP_out</ci>
+                </apply>
+                <cn cellml:units="per_second">1</cn>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>cAMP_out2</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <ci>cAMP_out</ci>
+                        <cn cellml:units="uM">0</cn>
+                    </apply>
+                    <ci>cAMP_nif</ci>
+                </apply>
+            </apply>
+            <!--Iso_shift = sel
+    case Iso_1_nM > 0{dimensionless}:
+        7.5{millivolt};
+    otherwise:
+        0{millivolt};
+endsel;-->
+            <!--based on Linder's paper<Sympathetic Stimulation Can Compensate for  Hypocalcaemia-Induced Bradycardia in Human and  Rabbit Sinoatrial Node Cells> table1, but not build relationship yet
+n=7 (based on <Real-time relationship between PKA biochemical signal network dynamics and increased action potential firing rate in heart pacemaker cells> p6 that AP firing rate in response to ISO)
+according to Fabbri model, Iso_shift_max = 7.5mV, but not find the calculation formula, so just multiple a coefficient 1.33, <An updated computational model of rabbit sinoatrial action potential to investigate the mechanisms of heart rate modulation>
+need check later!!! the range is [-24.4,7.5],the original should multiple with 1.0e-6-->
+            <apply>
+                <eq/>
+                <ci>Iso_shift2</ci>
+                <apply>
+                    <times/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <divide/>
+                            <apply>
+                                <times/>
+                                <ci>K_If</ci>
+                                <apply>
+                                    <power/>
+                                    <apply>
+                                        <times/>
+                                        <cn cellml:units="per_uM">1</cn>
+                                        <ci>cAMP_nif</ci>
+                                    </apply>
+                                    <cn cellml:units="dimensionless">1</cn>
+                                </apply>
+                            </apply>
+                            <apply>
+                                <plus/>
+                                <apply>
+                                    <times/>
+                                    <cn cellml:units="dimensionless">1.0</cn>
+                                    <apply>
+                                        <power/>
+                                        <apply>
+                                            <times/>
+                                            <cn cellml:units="per_uM">1</cn>
+                                            <ci>K05_If</ci>
+                                        </apply>
+                                        <cn cellml:units="dimensionless">1</cn>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <power/>
+                                    <apply>
+                                        <times/>
+                                        <cn cellml:units="per_uM">1</cn>
+                                        <ci>cAMP_nif</ci>
+                                    </apply>
+                                    <cn cellml:units="dimensionless">1</cn>
+                                </apply>
+                            </apply>
+                        </apply>
+                        <cn cellml:units="millivolt">18.76</cn>
+                    </apply>
+                    <cn cellml:units="dimensionless">1.33</cn>
+                </apply>
+            </apply>
+            <!--Iso_shift = Iso_shift2;-->
+            <apply>
+                <eq/>
+                <ci>Iso_shift</ci>
+                <piecewise>
+                    <piece>
+                        <ci>Iso_shift2</ci>
+                        <apply>
+                            <gt/>
+                            <ci>Iso_shift2</ci>
+                            <cn cellml:units="millivolt">0</cn>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <cn cellml:units="millivolt">0</cn>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--not totally match with the paper, add ACh and ISO influence factors
+from mathematic aspect, could explain that this coefficient could delay the I_f activate time-->
+            <apply>
+                <eq/>
+                <ci>tau_y</ci>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <divide/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <plus/>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <times/>
+                                    <cn cellml:units="per_millivolt_second">0.36</cn>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <plus/>
+                                                <ci>V</ci>
+                                                <cn cellml:units="millivolt">148.8</cn>
+                                            </apply>
+                                            <ci>ACh_shift</ci>
+                                        </apply>
+                                        <ci>Iso_shift</ci>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <exp/>
+                                        <apply>
+                                            <times/>
+                                            <cn cellml:units="per_millivolt">0.066</cn>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <plus/>
+                                                        <ci>V</ci>
+                                                        <cn cellml:units="millivolt">148.8</cn>
+                                                    </apply>
+                                                    <ci>ACh_shift</ci>
+                                                </apply>
+                                                <ci>Iso_shift</ci>
+                                            </apply>
+                                        </apply>
+                                    </apply>
+                                    <cn cellml:units="dimensionless">1</cn>
+                                </apply>
+                            </apply>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <times/>
+                                    <cn cellml:units="per_millivolt_second">0.1</cn>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <plus/>
+                                                <ci>V</ci>
+                                                <cn cellml:units="millivolt">87.3</cn>
+                                            </apply>
+                                            <ci>ACh_shift</ci>
+                                        </apply>
+                                        <ci>Iso_shift</ci>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <minus/>
+                                    <cn cellml:units="dimensionless">1</cn>
+                                    <apply>
+                                        <exp/>
+                                        <apply>
+                                            <times/>
+                                            <apply>
+                                                <minus/>
+                                                <cn cellml:units="per_millivolt">0.2</cn>
+                                            </apply>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <plus/>
+                                                        <ci>V</ci>
+                                                        <cn cellml:units="millivolt">87.3</cn>
+                                                    </apply>
+                                                    <ci>ACh_shift</ci>
+                                                </apply>
+                                                <ci>Iso_shift</ci>
+                                            </apply>
+                                        </apply>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                    <cn cellml:units="second">0.054</cn>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>y_infinity</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <plus/>
+                            <cn cellml:units="dimensionless">0.01329</cn>
+                            <apply>
+                                <divide/>
+                                <cn cellml:units="dimensionless">0.99921</cn>
+                                <apply>
+                                    <plus/>
+                                    <cn cellml:units="dimensionless">1</cn>
+                                    <apply>
+                                        <exp/>
+                                        <apply>
+                                            <divide/>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <apply>
+                                                        <minus/>
+                                                        <apply>
+                                                            <plus/>
+                                                            <ci>V</ci>
+                                                            <cn cellml:units="millivolt">97.134</cn>
+                                                        </apply>
+                                                        <ci>ACh_shift</ci>
+                                                    </apply>
+                                                    <ci>Iso_shift</ci>
+                                                </apply>
+                                                <ci>y_shift</ci>
+                                            </apply>
+                                            <cn cellml:units="millivolt">8.1752</cn>
+                                        </apply>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <lt/>
+                            <ci>V</ci>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <cn cellml:units="millivolt">80</cn>
+                                            <ci>ACh_shift</ci>
+                                        </apply>
+                                        <ci>Iso_shift</ci>
+                                    </apply>
+                                    <ci>y_shift</ci>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <times/>
+                            <cn cellml:units="dimensionless">0.0002501</cn>
+                            <apply>
+                                <exp/>
+                                <apply>
+                                    <divide/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <apply>
+                                                <minus/>
+                                                <apply>
+                                                    <minus/>
+                                                    <ci>V</ci>
+                                                    <ci>ACh_shift</ci>
+                                                </apply>
+                                                <ci>Iso_shift</ci>
+                                            </apply>
+                                            <ci>y_shift</ci>
+                                        </apply>
+                                    </apply>
+                                    <cn cellml:units="millivolt">12.861</cn>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>y</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>y_infinity</ci>
+                        <ci>y</ci>
+                    </apply>
+                    <ci>tau_y</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+</model>

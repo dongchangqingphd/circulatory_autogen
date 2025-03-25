@@ -1,0 +1,119 @@
+[debug]obs_idx= 0
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 25.136147908748562
+[debug]debug_costgt= 27.6648879517761
+[debug]debug_costvec= 1
+[debug]debug_costweight= 1.0
+[debug]cost_idx= 6.394526205210924
+[debug]obs_idx= 1
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= -57.622641797142045
+[debug]debug_costgt= -58.1392891303535
+[debug]debug_costvec= 1
+[debug]debug_costweight= 2.0
+[debug]cost_idx= 0.5338489338290103
+[debug]obs_idx= 2
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 2.75
+[debug]debug_costgt= 2.7997200279972008
+[debug]debug_costvec= 1
+[debug]debug_costweight= 3.0
+[debug]cost_idx= 0.007416243552127284
+[debug]cost= 2.3119304608640205
+[debug]fcost= 2.3119304608640205
+[debug]into cost calculate function
+[debug][obs_dict,exp_idx,sub_idx]= {'const': array([ 26.55239962, -58.2342641 ,   2.25      ]), 'series': None, 'amp': None, 'phase': None} 0 0
+[debug]updated_weight_const_vec= [1. 2. 3.]
+[debug]num_weighted_obs= 3
+[debug]obs_idx= 0
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 26.552399621586087
+[debug]debug_costgt= 27.6648879517761
+[debug]debug_costvec= 1
+[debug]debug_costweight= 1.0
+[debug]cost_idx= 1.2376302848089673
+[debug]obs_idx= 1
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= -58.23426409600853
+[debug]debug_costgt= -58.1392891303535
+[debug]debug_costvec= 1
+[debug]debug_costweight= 2.0
+[debug]cost_idx= 0.01804048820234971
+[debug]obs_idx= 2
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 2.25
+[debug]debug_costgt= 2.7997200279972008
+[debug]debug_costvec= 1
+[debug]debug_costweight= 3.0
+[debug]cost_idx= 0.9065763275437295
+[debug]cost= 0.720749033518349
+[debug]fcost= 0.720749033518349
+[debug]into cost calculate function
+[debug][obs_dict,exp_idx,sub_idx]= {'const': array([ 25.24151545, -57.66763388,   2.75      ]), 'series': None, 'amp': None, 'phase': None} 0 0
+[debug]updated_weight_const_vec= [1. 2. 3.]
+[debug]num_weighted_obs= 3
+[debug]obs_idx= 0
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 25.2415154495144
+[debug]debug_costgt= 27.6648879517761
+[debug]debug_costvec= 1
+[debug]debug_costweight= 1.0
+[debug]cost_idx= 5.872734284718147
+[debug]obs_idx= 1
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= -57.66763387515845
+[debug]debug_costgt= -58.1392891303535
+[debug]debug_costvec= 1
+[debug]debug_costweight= 2.0
+[debug]cost_idx= 0.44491735950620737
+[debug]obs_idx= 2
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 2.75
+[debug]debug_costgt= 2.7997200279972008
+[debug]debug_costvec= 1
+[debug]debug_costweight= 3.0
+[debug]cost_idx= 0.007416243552127284
+[debug]cost= 2.1083559625921606
+[debug]fcost= 2.1083559625921606
+[debug]into cost calculate function
+[debug][obs_dict,exp_idx,sub_idx]= {'const': array([ 23.10781474, -57.46429399,   2.75      ]), 'series': None, 'amp': None, 'phase': None} 0 0
+[debug]updated_weight_const_vec= [1. 2. 3.]
+[debug]num_weighted_obs= 3
+[debug]obs_idx= 0
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 23.107814743734846
+[debug]debug_costgt= 27.6648879517761
+[debug]debug_costvec= 1
+[debug]debug_costweight= 1.0
+[debug]cost_idx= 20.766916223447424
+[debug]obs_idx= 1
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= -57.46429398928463
+[debug]debug_costgt= -58.1392891303535
+[debug]debug_costvec= 1
+[debug]debug_costweight= 2.0
+[debug]cost_idx= 0.911236880933166
+[debug]obs_idx= 2
+[debug]debug_costtype= MSE
+[debug]const[const_idx]= 2.75
+[debug]debug_costgt= 2.7997200279972008
+[debug]debug_costvec= 1
+[debug]debug_costweight= 3.0
+[debug]cost_idx= 0.007416243552127284
+[debug]cost= 7.228523115977573
+[debug]fcost= 7.228523115977573
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

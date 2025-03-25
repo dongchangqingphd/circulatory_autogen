@@ -49,13 +49,13 @@ class scriptFunctionParser(object):
         cost_funcs_dict = {}
         # funcs = [item for item in dir(cost_funcs) if callable(getattr(cost_funcs, item))]
         funcs_user = [item for item in dir(cost_funcs_user) if callable(getattr(cost_funcs_user, item))]
-
+        #print("[debug2]funcs_user=",funcs_user)
         # create dict with keys of string of function names
         # for func in funcs:
         #     cost_funcs_dict[func] = getattr(cost_funcs, func)
         for func in funcs_user:
             cost_funcs_dict[func] = getattr(cost_funcs_user, func)
-        
+        #print("[debug2]cost_funcs_dict=",cost_funcs_dict)
         return cost_funcs_dict
         
 

@@ -76,7 +76,35 @@ for ii in range(1,55):
     outputs.append(z1[1000])
     
     
+reset_param_names = ['Rate_modulation_experiments/ISO']
+#set initial value
+reset_param_val = [0.1]
+#define a variable that save result from iteration
+inputs = []
+outputs = []
+
+#preset iteration times, to realized that increase the Iso concentration for different simualtion
+for ii in range(1,55):
+    x = SimulationHelper(file_path, 0.01, 10, pre_time=0)
+    #used for debug
+    print("ii=",ii)
+    #notice, in here, must be cautious to set the formula about change of variable parameters
+    reset_param_val[0] = reset_param_val[0]*1.2
+    #print("reset_value:",reset_param_val)
+    x.set_param_vals(reset_param_names, reset_param_val)
+    x.run()
+    z = x.get_results(obs_list)
+    z1 = z[1][0]
+    #z_out = z[1][100]
+    #print the output
+    #print("z=",len(z1))
+    inputs.append(reset_param_val[0])
+    outputs.append(z1[1000])
+
+
 x.close_simulation()
+
+
 
 #set the final curve saved address and image name
 save_addr1 = Outputfile_address + "/"+save_newfilename1+"/ISO_cAMP-fit ventricular6.png"

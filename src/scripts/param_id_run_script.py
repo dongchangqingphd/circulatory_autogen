@@ -8,7 +8,7 @@ import sys
 import os
 from mpi4py import MPI
 from distutils import util, dir_util
-
+import inspect
 
 root_dir = os.path.join(os.path.dirname(__file__), '../..')
 sys.path.append(os.path.join(root_dir, 'src'))
@@ -42,6 +42,7 @@ def run_param_id(inp_data_dict=None):
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
     num_procs = comm.Get_size()
+    
     print(f'starting script for rank = {rank}')
 
     param_id_method = inp_data_dict['param_id_method']
@@ -107,7 +108,7 @@ def run_param_id(inp_data_dict=None):
         if os.path.exists(os.path.join(param_id.output_dir, 'param_names_to_remove.csv')):
             os.remove(os.path.join(param_id.output_dir, 'param_names_to_remove.csv'))
 
-
+    #print("[debug]step1")
     if param_id_method == 'bayesian':
         acq_func = 'PI'  # 'gp_hedge'
         n_initial_points = 5
@@ -125,12 +126,14 @@ def run_param_id(inp_data_dict=None):
             num_calls_to_function = inp_data_dict['ga_options']['num_calls_to_function']
         param_id.set_bayesian_parameters(num_calls_to_function, n_initial_points, acq_func,  random_seed,
                                             acq_func_kwargs=acq_func_kwargs)
+    #print("[debug]before run()")
+    #print("[debug]function address: ",inspect.getfile(run))
     param_id.run()
-
+    #print("[debug]step2")
     best_param_vals = param_id.get_best_param_vals()
     param_id.close_simulation()
     do_mcmc = inp_data_dict['do_mcmc']
-
+    #print("[debug]step3")
     if DEBUG:
         mcmc_options = inp_data_dict['debug_mcmc_options']
     else:

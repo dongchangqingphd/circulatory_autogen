@@ -1,0 +1,58 @@
+{"protocol_info":
+  { "pre_times": [1.0],
+      "sim_times": [[3,4]],
+      "params_to_change": {
+      "NES/PDE_cAMP": [[0,0]]},
+      "experiment_colors": ["b"],
+      "experiment_labels": ["Heart rate fit ISO/ACh"]
+  },
+  "prediction_items":[
+    {
+      "variable": "hrv/V",
+      "unit": "millivolt",
+      "name_for_plotting": "V",
+      "experiment_idx": 0
+    }
+  ],
+  "data_items": [
+    { "variable": "hrv/V",
+      "name_for_plotting": "V_{max}",
+      "data_type": "constant",
+      "operation": "max",
+      "operands":["hrv/V"],
+      "unit": "millivolt",
+      "weight": 1.0,
+      "value": 26.5128,
+      "std": 1,
+      "experiment_idx": 0,
+      "subexperiment_idx": 0,
+      "plot_type":"horizontal"
+    },
+    { "variable": "hrv/V",
+      "name_for_plotting": "V_{max}",
+      "data_type": "constant",
+      "operation": "min",
+      "operands":["hrv/V"],
+      "unit": "millivolt",
+      "weight": 1.0,
+      "value": -58.867,
+      "std": 1,
+      "experiment_idx": 0,
+      "subexperiment_idx": 0,
+      "plot_type":"horizontal"
+    },
+    { "variable": "hrv/V",
+      "name_for_plotting": "f_{preSpreM}",
+      "data_type": "constant",
+      "operation": "calc_spike_frequency_windowed",
+      "operands":["time", "hrv/V"],
+      "unit": "per_s",
+      "weight": 1.0,
+      "value": 1.375,
+      "std": 0.1,
+      "experiment_idx": 0,
+      "subexperiment_idx": 0,
+      "plot_type":"None"
+    }
+  ]
+}
