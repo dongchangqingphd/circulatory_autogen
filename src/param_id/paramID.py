@@ -62,6 +62,7 @@ warnings.filterwarnings( "ignore", module = "matplotlib/..*" )
 global mcmc_object
 mcmc_object = None
 
+
 debug_mincost = float('inf')
 
 class CVS0DParamID():
@@ -1805,12 +1806,15 @@ class OpencorParamID():
             #     self.ga_options['cost_type'] = 'MSE'
             if 'cost_convergence' not in self.ga_options.keys():
                 self.ga_options['cost_convergence'] = 0.0001
+            if 'max_patience' not in self.ga_options.keys():
+                self.ga_options['max_patience'] = 2
             if 'num_calls_to_function' not in self.ga_options.keys():
                 self.ga_options['num_calls_to_function'] = 10000
         else:
             self.ga_options = {}
             # self.ga_options['cost_type'] = 'MSE'
             self.ga_options['cost_convergence'] = 0.0001
+            self.ga_options['max_patience'] = 0.0001
             self.ga_options['num_calls_to_function'] = 10000
         # self.cost_type = self.ga_options['cost_type']
         self.cost_type = self.obs_info["cost_type"]
@@ -2020,9 +2024,12 @@ class OpencorParamID():
             finished_ga[0] = False
             cost = np.zeros(num_pop)
             cost[0] = np.inf
-                
+            
+            last_loss = None
+            loss_repeat_counter = 0
+
             #print("[debug]cost=",cost)
-            while cost[0] > self.ga_options["cost_convergence"] and gen_count < self.max_generations:
+            while cost[0] > self.ga_options["cost_convergence"] and gen_count < self.max_generations and loss_repeat_counter<self.ga_options["max_patience"]:
                 mutation_weight = 0.1
                 # TODO make the default just a mutation weight of 0.1
                 # if gen_count > 30:
@@ -2173,12 +2180,24 @@ class OpencorParamID():
                     with open(os.path.join(self.output_dir, 'best_param_vals_history.csv'), 'a') as file:
                         np.savetxt(file, param_vals_norm[:, 0].reshape(1,-1), fmt='%.5e', delimiter=', ')
                     
+                    if last_loss is not None:
+                        if (cost[0]-last_loss) <1e-5:
+                            loss_repeat_counter += 1
+                        else:
+                            loss_repeat_counter = 0
+                            last_loss = cost[0]
+                    else:
+                        last_loss = cost[0]
+                    #print("[debug3]loss_repeat_counter=",loss_repeat_counter)
                     # if cost is small enough then exit
                     if cost[0] < self.ga_options["cost_convergence"]:
                         print('Cost is less than cost aim, success!')
                         finished_ga[0] = True
+                    elif loss_repeat_counter >= self.ga_options["max_patience"]:
+                        print('loss reached steady state, success!')
+                        finished_ga[0] = True
                     else:
-                        print("[debug3]into genetic update algorithm")
+                        #print("[debug3]into genetic update algorithm")
                         # At this stage all of the population has been simulated
                         simulated_bools = [True]*num_pop
                         # keep the num_survivors best param_vals, replace these with mutations
@@ -2743,9 +2762,9 @@ class OpencorParamID():
         #print("[debug]cost=",cost/3.0)
         
         if (cost<debug_mincost):
-            print("[debug]good fit:[V_max,V_min,freq,meanV]=",const[0],const[1],const[2],const[3])
+            #print("[debug]good fit:[V_max,V_min,freq,meanV]=",const[0],const[1],const[2],const[3])
             debug_mincost = cost
-            print("[debug]cost,lcost=",cost,cost_idx)
+            #print("[debug]cost,lcost=",cost,cost_idx)
         
         # TODO debugging a strange error that occurs occasionally in GA
         # assert not np.isnan(cost), 'cost is nan'
