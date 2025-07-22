@@ -1,0 +1,740 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="LV_modules" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#">
+    <!-- Your code goes here-->
+    <component name="vessel_test">
+        <variable name="t" public_interface="in" units="second"/>
+        <variable name="u_P" public_interface="in" units="mmHg"/>
+        <variable name="V_LV" public_interface="in" units="ml"/>
+        <variable name="k_V" public_interface="in" units="dimensionless"/>
+        <variable name="k_P" public_interface="in" units="dimensionless"/>
+        <variable name="V" public_interface="out" units="ml"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>V</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <ci>V_LV</ci>
+                        <ci>k_V</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>u_P</ci>
+                        <ci>k_P</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="LV_simple">
+        <variable name="t" public_interface="in" units="second"/>
+        <variable name="u_se" public_interface="in" units="mmHg"/>
+        <variable name="A" public_interface="in" units="ml"/>
+        <variable name="Tcount" public_interface="in" units="second"/>
+        <variable name="T_amax" public_interface="in" units="second"/>
+        <variable name="T_dmax" public_interface="in" units="second"/>
+        <variable name="K_amax" public_interface="in" units="dimensionless"/>
+        <variable name="K_amin" public_interface="in" units="dimensionless"/>
+        <variable name="K_dmax" public_interface="in" units="dimensionless"/>
+        <!--paper recommend is 2.55-->
+        <variable name="K_dmin" public_interface="in" units="dimensionless"/>
+        <variable name="alpha_1" public_interface="in" units="dimensionless"/>
+        <variable name="alpha_2" public_interface="in" units="dimensionless"/>
+        <variable name="A_a" public_interface="in" units="dimensionless"/>
+        <variable name="B_a" public_interface="in" units="dimensionless"/>
+        <variable name="A_d" public_interface="in" units="dimensionless"/>
+        <variable name="B_d" public_interface="in" units="dimensionless"/>
+        <variable name="l_0" public_interface="in" units="um"/>
+        <!--below R and I were defined by myself-->
+        <!--        var R_mv: s_mmHg_per_ml {init: 1.0};
+        var I_mv: s2_mmHg_per_ml {init: 0.1};
+        var R_av: s_mmHg_per_ml {init: 1.0};
+        var I_av: s2_mmHg_per_ml {init: 1.0};-->
+        <variable name="R_af" public_interface="in" units="s_mmHg_per_ml"/>
+        <variable name="C_af" public_interface="in" units="ml_per_mmHg"/>
+        <variable name="I_af" public_interface="in" units="s2_mmHg_per_ml"/>
+        <variable name="v_mv_init" public_interface="in" units="m3_per_second"/>
+        <variable initial_value="0" name="v_mv" public_interface="out" units="m3_per_second"/>
+        <variable name="v_av_init" public_interface="in" units="m3_per_second"/>
+        <variable initial_value="0" name="v_av" public_interface="out" units="m3_per_second"/>
+        <!--no initial value parameters: u_af, u_out-->
+        <variable name="u_af_init" public_interface="in" units="mmHg"/>
+        <variable initial_value="u_af_init" name="u_af" public_interface="out" units="mmHg"/>
+        <variable name="u_out" public_interface="in" units="mmHg"/>
+        <!--no initial value parameters: X_D, X_A
+from chatGPT, in whole LF, X_A nearly 1.5e-8 mole
+set X_D=X_A=1-->
+        <variable name="X_D_init" public_interface="in" units="mole"/>
+        <variable initial_value="0.5" name="X_D" public_interface="out" units="mole"/>
+        <variable name="X_A_init" public_interface="in" units="mole"/>
+        <variable initial_value="0.5" name="X_A" public_interface="out" units="mole"/>
+        <!--include ODE, so initialize it
+but below 3 parameters may be wrong initialize value
+when l_m=3, it's very similar with the classic PV shape-->
+        <variable name="lm_init" public_interface="in" units="um"/>
+        <variable initial_value="lm_init" name="l_m" public_interface="out" units="um"/>
+        <variable name="E_A_init" public_interface="in" units="mmHg_per_ml"/>
+        <variable initial_value="E_A_init" name="E_A" public_interface="out" units="mmHg_per_ml"/>
+        <variable name="E_R_init" public_interface="in" units="mmHg_per_ml"/>
+        <variable initial_value="E_R_init" name="E_R" public_interface="out" units="mmHg_per_ml"/>
+        <!--calculated variables-->
+        <variable name="u_LV" units="mmHg"/>
+        <variable name="v_af" units="m3_per_second"/>
+        <variable name="kA_t" units="per_second"/>
+        <variable name="kD_t" units="per_second"/>
+        <variable name="beta" units="dimensionless"/>
+        <variable name="v_A" units="mol_per_s"/>
+        <variable name="t_T" units="second"/>
+        <variable name="time_line" units="second"/>
+        <!--var u_A: dimensionless;
+var u_D: dimensionless;-->
+        <variable name="alpha" units="dimensionless"/>
+        <variable name="f_a" units="N"/>
+        <variable name="f_r" units="N"/>
+        <variable name="test" units="dimensionless"/>
+        <variable name="test2" units="dimensionless"/>
+        <variable name="v_afc" units="m3_per_second"/>
+        <variable name="v_f" units="m1_per_second"/>
+        <variable name="u_f" units="N"/>
+        <variable name="psi" units="mm_ml"/>
+        <variable name="v_p" units="m3_per_second"/>
+        <variable name="u_P" public_interface="out" units="mmHg"/>
+        <variable name="V_LV" public_interface="out" units="ml"/>
+        <!--output force and speed from this module-->
+        <variable name="v_m" units="m1_per_second"/>
+        <variable name="f_m" units="N"/>
+        <!--**************************valve control part***********************//-->
+        <!--below R and I were defined by myself
+R_mv=[0.002,0.02],from ChatGPT, ref:<Numerical simulation of cardiovascular dynamics with healthy and diseased heart valves>
+if transform into min_mmHg/L, range is [0.033,0.33]-->
+        <variable name="R_mv0" public_interface="in" units="s_mmHg_per_ml"/>
+        <!--I_mv=[0.05,0.2],from chatGPT, ref:<Total arterial inertance as the fourth elementof the windkessel model>-->
+        <variable name="I_mv" public_interface="in" units="s2_mmHg_per_ml"/>
+        <!--R_av=[0.02,0.2],from chatGPT, ref:<Numerical simulation of cardiovascular dynamics with healthy and diseased heart valve>-->
+        <variable name="R_av0" public_interface="in" units="s_mmHg_per_ml"/>
+        <!--I_av=[0.05,0.3],from chatGPT, ref:<Total arterial inertance as the fourth elementof the windkessel model>-->
+        <variable name="I_av" public_interface="in" units="s2_mmHg_per_ml"/>
+        <variable name="R_mv" public_interface="out" units="s_mmHg_per_ml"/>
+        <variable name="R_av" public_interface="out" units="s_mmHg_per_ml"/>
+        <!--                R_mv = R_mv0;
+                R_av = R_av0;-->
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>R_mv</ci>
+                <piecewise>
+                    <piece>
+                        <ci>R_mv0</ci>
+                        <apply>
+                            <lt/>
+                            <ci>u_LV</ci>
+                            <ci>u_se</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <cn cellml:units="s_mmHg_per_ml">99999999</cn>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>R_av</ci>
+                <piecewise>
+                    <piece>
+                        <ci>R_av0</ci>
+                        <apply>
+                            <gt/>
+                            <ci>u_LV</ci>
+                            <ci>u_af</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <cn cellml:units="s_mmHg_per_ml">99999999</cn>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--**************************vessel connect part***********************//-->
+            <apply>
+                <eq/>
+                <ci>u_LV</ci>
+                <ci>u_P</ci>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>v_mv</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <minus/>
+                            <ci>u_se</ci>
+                            <apply>
+                                <times/>
+                                <ci>R_mv</ci>
+                                <ci>v_mv</ci>
+                            </apply>
+                        </apply>
+                        <ci>u_LV</ci>
+                    </apply>
+                    <ci>I_mv</ci>
+                </apply>
+            </apply>
+            <!--v_av = v_mv + v_p;
+based on vessel's bondgraph equation-->
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>v_av</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <minus/>
+                            <ci>u_LV</ci>
+                            <ci>u_af</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>R_av</ci>
+                            <ci>v_av</ci>
+                        </apply>
+                    </apply>
+                    <ci>I_av</ci>
+                </apply>
+            </apply>
+            <!--based on vessel's bondgraph equation-->
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>u_af</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>v_av</ci>
+                        <ci>v_af</ci>
+                    </apply>
+                    <ci>C_af</ci>
+                </apply>
+            </apply>
+            <!--used for show results-->
+            <apply>
+                <eq/>
+                <ci>v_afc</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>v_av</ci>
+                        <ci>v_af</ci>
+                    </apply>
+                    <ci>C_af</ci>
+                </apply>
+            </apply>
+            <!--the C_afterload only store energy, so assume directly connect-->
+            <!--**************************mechanical tranform into hydraulic part***********************//-->
+            <apply>
+                <eq/>
+                <ci>v_af</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>u_af</ci>
+                        <ci>u_out</ci>
+                    </apply>
+                    <ci>R_af</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>v_p</ci>
+                <apply>
+                    <minus/>
+                    <ci>v_mv</ci>
+                    <ci>v_av</ci>
+                </apply>
+            </apply>
+            <!--assume left ventricle is a cylinder, so relationship as below, detailed in report-->
+            <apply>
+                <eq/>
+                <ci>V_LV</ci>
+                <apply>
+                    <times/>
+                    <ci>A</ci>
+                    <apply>
+                        <power/>
+                        <ci>l_m</ci>
+                        <cn cellml:units="dimensionless">2</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>psi</ci>
+                <apply>
+                    <times/>
+                    <ci>A</ci>
+                    <cn cellml:units="dimensionless">2</cn>
+                    <apply>
+                        <power/>
+                        <ci>l_m</ci>
+                        <cn cellml:units="dimensionless">1</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>u_f</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <cn cellml:units="dimensionless">1.0</cn>
+                        <ci>f_m</ci>
+                    </apply>
+                    <cn cellml:units="N">0.0</cn>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>v_f</ci>
+                <apply>
+                    <divide/>
+                    <ci>v_p</ci>
+                    <ci>psi</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>v_m</ci>
+                <ci>v_f</ci>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>u_P</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <cn cellml:units="dimensionless">1.0</cn>
+                        <ci>u_f</ci>
+                    </apply>
+                    <ci>psi</ci>
+                </apply>
+            </apply>
+            <!--**************************biochemical tranform into mechanical part***********************//        
+transform the current time into cycle time-->
+            <apply>
+                <eq/>
+                <ci>t_T</ci>
+                <apply>
+                    <minus/>
+                    <ci>t</ci>
+                    <apply>
+                        <times/>
+                        <ci>Tcount</ci>
+                        <apply>
+                            <floor/>
+                            <apply>
+                                <divide/>
+                                <ci>t</ci>
+                                <ci>Tcount</ci>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>time_line</ci>
+                <ci>t</ci>
+            </apply>
+            <!--2 variable equation from paper-->
+            <!--K_amax*sin(pow(pi*t_T/T_amax, alpha_1));-->
+            <apply>
+                <eq/>
+                <ci>kA_t</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <times/>
+                            <ci>K_amax</ci>
+                            <apply>
+                                <power/>
+                                <apply>
+                                    <sin/>
+                                    <apply>
+                                        <divide/>
+                                        <apply>
+                                            <times/>
+                                            <pi/>
+                                            <ci>t_T</ci>
+                                        </apply>
+                                        <ci>T_amax</ci>
+                                    </apply>
+                                </apply>
+                                <ci>alpha_1</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <and/>
+                            <apply>
+                                <geq/>
+                                <ci>t_T</ci>
+                                <cn cellml:units="second">0</cn>
+                            </apply>
+                            <apply>
+                                <leq/>
+                                <ci>t_T</ci>
+                                <ci>T_amax</ci>
+                            </apply>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <ci>K_amin</ci>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--K_amax*sin(pow(pi*t_T/T_amax, alpha_1));-->
+            <!--K_dmax*sin(pow(pi*(t_T-T_dmax)/(Tcount-T_dmax), alpha_2));-->
+            <apply>
+                <eq/>
+                <ci>kD_t</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <times/>
+                            <ci>K_dmax</ci>
+                            <apply>
+                                <power/>
+                                <apply>
+                                    <sin/>
+                                    <apply>
+                                        <divide/>
+                                        <apply>
+                                            <times/>
+                                            <pi/>
+                                            <apply>
+                                                <minus/>
+                                                <ci>t_T</ci>
+                                                <ci>T_dmax</ci>
+                                            </apply>
+                                        </apply>
+                                        <apply>
+                                            <minus/>
+                                            <ci>Tcount</ci>
+                                            <ci>T_dmax</ci>
+                                        </apply>
+                                    </apply>
+                                </apply>
+                                <ci>alpha_2</ci>
+                            </apply>
+                        </apply>
+                        <apply>
+                            <and/>
+                            <apply>
+                                <geq/>
+                                <ci>t_T</ci>
+                                <ci>T_dmax</ci>
+                            </apply>
+                            <apply>
+                                <leq/>
+                                <ci>t_T</ci>
+                                <ci>Tcount</ci>
+                            </apply>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <ci>K_dmin</ci>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!--K_dmax*sin(pow(pi*(t_T-T_dmax)/(Tcount-T_dmax), alpha_2));-->
+            <!--biochemical reaction equations-->
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>X_D</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>kA_t</ci>
+                            <ci>X_D</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>kD_t</ci>
+                            <ci>X_A</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>X_A</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <times/>
+                        <ci>kA_t</ci>
+                        <ci>X_D</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>kD_t</ci>
+                        <ci>X_A</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <!--u_A         = A_a+B_a*log(X_A);
+u_D         = A_d+B_d*log(X_D);-->
+            <!--ode(X_A, t) = kA_t*(1{mole}-X_A)-kD_t*pow(X_D, beta);
+ode(X_D, t) = -(kA_t*(1{mole}-X_A)-kD_t*pow(X_D, beta));-->
+            <!--define a new variable to identify chemical potential flux, but biochemical reaction pretty fast, so the v_A will keep 0 after a few seconds-->
+            <apply>
+                <eq/>
+                <ci>v_A</ci>
+                <apply>
+                    <minus/>
+                    <apply>
+                        <times/>
+                        <ci>kA_t</ci>
+                        <ci>X_D</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>kD_t</ci>
+                        <apply>
+                            <power/>
+                            <ci>X_A</ci>
+                            <ci>beta</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>alpha</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <ci>A_a</ci>
+                        <ci>X_A</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>B_a</ci>
+                        <ci>X_A</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <log/>
+                                <ci>X_A</ci>
+                            </apply>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>beta</ci>
+                <apply>
+                    <minus/>
+                    <ci>E_A</ci>
+                    <ci>E_R</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>E_A</ci>
+                </apply>
+                <apply>
+                    <times/>
+                    <ci>v_m</ci>
+                    <ci>E_A</ci>
+                    <apply>
+                        <power/>
+                        <apply>
+                            <minus/>
+                            <ci>l_m</ci>
+                            <ci>l_0</ci>
+                        </apply>
+                        <cn cellml:units="dimensionless">4</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>E_R</ci>
+                </apply>
+                <apply>
+                    <times/>
+                    <ci>v_m</ci>
+                    <ci>E_R</ci>
+                    <apply>
+                        <power/>
+                        <apply>
+                            <minus/>
+                            <ci>l_m</ci>
+                            <ci>l_0</ci>
+                        </apply>
+                        <cn cellml:units="dimensionless">4</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <!--in opencor, cannot put ODE in the right, so define a new variable-->
+            <apply>
+                <eq/>
+                <ci>f_a</ci>
+                <apply>
+                    <times/>
+                    <ci>E_A</ci>
+                    <apply>
+                        <power/>
+                        <apply>
+                            <minus/>
+                            <ci>l_m</ci>
+                            <ci>l_0</ci>
+                        </apply>
+                        <cn cellml:units="dimensionless">4</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>f_r</ci>
+                <apply>
+                    <times/>
+                    <ci>E_R</ci>
+                    <apply>
+                        <power/>
+                        <apply>
+                            <minus/>
+                            <ci>l_m</ci>
+                            <ci>l_0</ci>
+                        </apply>
+                        <cn cellml:units="dimensionless">4</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>l_m</ci>
+                </apply>
+                <ci>v_m</ci>
+            </apply>
+            <!--2PC just did energy transform, ideally the dissipation energy is 0-->
+            <!--v_m  = -u_A*v_A/f_m;-->
+            <apply>
+                <eq/>
+                <ci>test</ci>
+                <apply>
+                    <abs/>
+                    <apply>
+                        <sin/>
+                        <ci>t</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>test2</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <ci>A_a</ci>
+                        <ci>test</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <ci>B_a</ci>
+                        <ci>test</ci>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <log/>
+                                <ci>test</ci>
+                            </apply>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <!--assume the tension force include attach state and rest state-->
+            <apply>
+                <eq/>
+                <ci>f_m</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <ci>alpha</ci>
+                        <ci>f_a</ci>
+                    </apply>
+                    <apply>
+                        <times/>
+                        <apply>
+                            <minus/>
+                            <cn cellml:units="dimensionless">1.0</cn>
+                            <ci>alpha</ci>
+                        </apply>
+                        <ci>f_r</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+</model>

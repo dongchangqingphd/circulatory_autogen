@@ -1,0 +1,362 @@
+ll
+[?2004ltotal 204
+drwxrwxr-x  2 cdon822 graduate  4096 Jul 22 16:29 [0m[01;34m.[0m/
+drwxrwxr-x 15 cdon822 graduate  4096 Jul 16 09:48 [01;34m..[0m/
+-rwxrwxr-x  1 cdon822 graduate  3733 Mar 13 12:40 [01;32mchange_patient_num.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  1322 Apr 30 18:36 [01;32mcorrection_summary.txt[0m*
+-rwxrwxr-x  1 cdon822 graduate  1710 Jan  5  2025 [01;32mgnuplot_fitting_convergence.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  4032 Mar 13 12:40 [01;32minputs2.yaml[0m*
+-rwxrwxr-x  1 cdon822 graduate   195 Jan  5  2025 [01;32mload_mpi.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  1018 Mar 13 12:40 [01;32mopencor_pythonshell_path2.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate    78 Jun 16 15:55 [01;32mopencor_pythonshell_path.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  3352 May 15 17:24 [01;32mPLA_user_inputs.yaml[0m*
+-rwxrwxr-x  1 cdon822 graduate   147 Jan  5  2025 [01;32mplot_param_id.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  2683 Mar 13 12:40 [01;32mprepare_pulmonary_sim.py[0m*
+-rwxrwxr-x  1 cdon822 graduate   111 Jan  5  2025 [01;32mread_and_insert_parameters.sh[0m*
+-rw-r--r--  1 cdon822 graduate 42861 Jul 22 17:37 record4.txt
+-rwxrwxr-x  1 cdon822 graduate   125 Feb 11 12:23 [01;32mrun_autogeneration.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate   124 Jan  5  2025 [01;32mrun_autogeneration_with_id_params.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  4772 Jul 16 10:30 [01;32mrun_BoundaryConditionAnalysis1.py[0m*
+-rwxrwxr-x  1 cdon822 graduate   210 Jan  5  2025 [01;32mrun_multiple_param_id.sh[0m*
+-rw-r--r--  1 cdon822 graduate  4246 Jul 17 13:12 run_NoiseA1.py
+-rwxrwxr-x  1 cdon822 graduate   140 May  6 15:11 [01;32mrun_other_scripts.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate   350 Jun 16 15:55 [01;32mrun_param_id.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  4281 Jul 10 13:41 [01;32mrun_PLA_1param.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  3275 May  1 20:21 [01;32mrun_PLA2.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  3715 May 14 18:37 [01;32mrun_PLA3.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  4270 May 15 17:22 [01;32mrun_PLA4.py[0m*
+-rwxrwxr-x  1 cdon822 graduate 10980 May 22 16:49 [01;32mrun_PLA5.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  1669 May  1 08:27 [01;32mrun_ProfileLikelihoodAnalysis.py[0m*
+-rwxrwxr-x  1 cdon822 graduate   243 Jan  5  2025 [01;32mrun_sequential_param_id.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate   145 May 16 10:17 [01;32mrun_SGD_calibrate.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate    92 Jan  5  2025 [01;32mrun_test_autogeneration.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate   101 Jan  5  2025 [01;32mrun_test_param_id.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate    98 Jun 16 15:55 [01;32mrun_utilities_checkmodel.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate   356 Jul 18 16:23 [01;32mrun_utilities_scripts.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  1631 May  1 08:50 [01;32mtxt_trans_excel.py[0m*
+-rwxr-xr-x  1 cdon822 graduate  3383 Jul 18 11:27 [01;32muser_inputs.yaml[0m*
+[?2004h(base) [01;32mcdon822@bn466400[00m:[01;34m~/Documents/GIT_files/circulatory_autogen/user_run_files[00m$ rm record4.txt 
+[?2004l[?2004h(base) [01;32mcdon822@bn466400[00m:[01;34m~/Documents/GIT_files/circulatory_autogen/user_run_files[00m$ ll
+[?2004ltotal 160
+drwxrwxr-x  2 cdon822 graduate  4096 Jul 22 17:37 [0m[01;34m.[0m/
+drwxrwxr-x 15 cdon822 graduate  4096 Jul 16 09:48 [01;34m..[0m/
+-rwxrwxr-x  1 cdon822 graduate  3733 Mar 13 12:40 [01;32mchange_patient_num.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  1322 Apr 30 18:36 [01;32mcorrection_summary.txt[0m*
+-rwxrwxr-x  1 cdon822 graduate  1710 Jan  5  2025 [01;32mgnuplot_fitting_convergence.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  4032 Mar 13 12:40 [01;32minputs2.yaml[0m*
+-rwxrwxr-x  1 cdon822 graduate   195 Jan  5  2025 [01;32mload_mpi.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  1018 Mar 13 12:40 [01;32mopencor_pythonshell_path2.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate    78 Jun 16 15:55 [01;32mopencor_pythonshell_path.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  3352 May 15 17:24 [01;32mPLA_user_inputs.yaml[0m*
+-rwxrwxr-x  1 cdon822 graduate   147 Jan  5  2025 [01;32mplot_param_id.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  2683 Mar 13 12:40 [01;32mprepare_pulmonary_sim.py[0m*
+-rwxrwxr-x  1 cdon822 graduate   111 Jan  5  2025 [01;32mread_and_insert_parameters.sh[0m*
+-rw-r--r--  1 cdon822 graduate     0 Jul 22 17:37 record4.txt
+-rwxrwxr-x  1 cdon822 graduate   125 Feb 11 12:23 [01;32mrun_autogeneration.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate   124 Jan  5  2025 [01;32mrun_autogeneration_with_id_params.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  4772 Jul 16 10:30 [01;32mrun_BoundaryConditionAnalysis1.py[0m*
+-rwxrwxr-x  1 cdon822 graduate   210 Jan  5  2025 [01;32mrun_multiple_param_id.sh[0m*
+-rw-r--r--  1 cdon822 graduate  4246 Jul 17 13:12 run_NoiseA1.py
+-rwxrwxr-x  1 cdon822 graduate   140 May  6 15:11 [01;32mrun_other_scripts.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate   350 Jun 16 15:55 [01;32mrun_param_id.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  4281 Jul 10 13:41 [01;32mrun_PLA_1param.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  3275 May  1 20:21 [01;32mrun_PLA2.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  3715 May 14 18:37 [01;32mrun_PLA3.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  4270 May 15 17:22 [01;32mrun_PLA4.py[0m*
+-rwxrwxr-x  1 cdon822 graduate 10980 May 22 16:49 [01;32mrun_PLA5.py[0m*
+-rwxrwxr-x  1 cdon822 graduate  1669 May  1 08:27 [01;32mrun_ProfileLikelihoodAnalysis.py[0m*
+-rwxrwxr-x  1 cdon822 graduate   243 Jan  5  2025 [01;32mrun_sequential_param_id.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate   145 May 16 10:17 [01;32mrun_SGD_calibrate.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate    92 Jan  5  2025 [01;32mrun_test_autogeneration.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate   101 Jan  5  2025 [01;32mrun_test_param_id.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate    98 Jun 16 15:55 [01;32mrun_utilities_checkmodel.sh[0m*
+-rwxr-xr-x  1 cdon822 graduate   356 Jul 18 16:23 [01;32mrun_utilities_scripts.sh[0m*
+-rwxrwxr-x  1 cdon822 graduate  1631 May  1 08:50 [01;32mtxt_trans_excel.py[0m*
+-rwxr-xr-x  1 cdon822 graduate  3383 Jul 18 11:27 [01;32muser_inputs.yaml[0m*
+[?2004h(base) [01;32mcdon822@bn466400[00m:[01;34m~/Documents/GIT_files/circulatory_autogen/user_run_files[00m$ llrm record4.txt ll[Kbash run_utilities_scripts.sh 
+[?2004l/home/cdon822/software/OpenCOR-0-8-Linux/Python/lib/python3.12/site-packages/numpy/core/getlimits.py:549: UserWarning: The value of the smallest subnormal for <class 'numpy.float64'> type is zero.
+  setattr(self, word, getattr(machar, word).flat[0])
+/home/cdon822/software/OpenCOR-0-8-Linux/Python/lib/python3.12/site-packages/numpy/core/getlimits.py:89: UserWarning: The value of the smallest subnormal for <class 'numpy.float64'> type is zero.
+  return self._float_to_str(self.smallest_subnormal)
+/home/cdon822/software/OpenCOR-0-8-Linux/Python/lib/python3.12/site-packages/numpy/core/getlimits.py:549: UserWarning: The value of the smallest subnormal for <class 'numpy.float32'> type is zero.
+  setattr(self, word, getattr(machar, word).flat[0])
+/home/cdon822/software/OpenCOR-0-8-Linux/Python/lib/python3.12/site-packages/numpy/core/getlimits.py:89: UserWarning: The value of the smallest subnormal for <class 'numpy.float32'> type is zero.
+  return self._float_to_str(self.smallest_subnormal)
+[debug]address= /home/cdon822/Documents/GIT_files/CA_user/NEs_to_SAN/resources/tpbinfer1_obs_data.json
+[debug]noise= 1.00625
+[debug]update csv finished!
+do_generation_with_fit_parameters: False
+Generating model files at /home/cdon822/Documents/GIT_files/CA_user/NEs_to_SAN/generated_models/tpbinfer1
+Generating CellML file tpbinfer1_units.cellml
+Generating CellML file tpbinfer1.cellml
+writing units mapping
+writing imports
+writing vessel mappings
+writing environment to sum venous input flows
+writing variable access
+writing mappings between computational environment and modules
+writing mappings between constant params
+writing writing time mappings between environment and modules
+Generating CellML file tpbinfer1_parameters.cellml
+Generating modules file tpbinfer1_modules.cellml
+Model generation complete.
+Checking Status of Model
+The method "parse_model" found 13 issues:
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    - Connection in model 'CardiovascularSystem' between 'Cellp2_module' and 'Naic2_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cad_module' and 'IcaT_module' is not unique.
+Recorded 13 issues:
+Issue 0 is a MESSAGE:
+    Description: Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    More information is available at: ?issue=
+    Stored item type: model
+Issue 1 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cellp2_module' and 'Naic2_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 2 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 3 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 4 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 5 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 6 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 7 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 8 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 9 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 10 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 11 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 12 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cad_module' and 'IcaT_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+
+The method "resolve_imports" found 3 issues:
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+no unresolved imports.
+Recorded 7 issues:
+Issue 0 is an ERROR:
+    Description: Variable 'ACh' in component 'Ifg_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 1 is an ERROR:
+    Description: Variable 'ACh' in component 'NES_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 2 is an ERROR:
+    Description: Variable 'ACh' in component 'IKACh_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 3 is an ERROR:
+    Description: Variable 'ACh' in component 'IKAChg_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 4 is an ERROR:
+    Description: Variable 'ACh' in component 'IcaL_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 5 is an ERROR:
+    Description: Variable 'ACh' in component 'CaSRin_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 6 is an ERROR:
+    Description: Variable 'ACh' in component 'NES' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+
+3
+WARNING model is has some issues, see above. The model might still run with some of the above issuesbut it is recommended to fix them
+Testing to see if model opens in OpenCOR
+Model generation has been successful.
+[debug]CL1= 1.09499999999999997335 
+[debug]CL2= 1.13548749999999998295 
+[debug]function's CL1 = 1.09499999999999997
+[debug]update json finished!
+[debug]update csv finished!
+do_generation_with_fit_parameters: False
+Generating model files at /home/cdon822/Documents/GIT_files/CA_user/NEs_to_SAN/generated_models/tpbinfer1
+Generating CellML file tpbinfer1_units.cellml
+Generating CellML file tpbinfer1.cellml
+writing units mapping
+writing imports
+writing vessel mappings
+writing environment to sum venous input flows
+writing variable access
+writing mappings between computational environment and modules
+writing mappings between constant params
+writing writing time mappings between environment and modules
+Generating CellML file tpbinfer1_parameters.cellml
+Generating modules file tpbinfer1_modules.cellml
+Model generation complete.
+Checking Status of Model
+The method "parse_model" found 13 issues:
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    - Connection in model 'CardiovascularSystem' between 'Cellp2_module' and 'Naic2_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    - Connection in model 'CardiovascularSystem' between 'Cad_module' and 'IcaT_module' is not unique.
+Recorded 13 issues:
+Issue 0 is a MESSAGE:
+    Description: Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    More information is available at: ?issue=
+    Stored item type: model
+Issue 1 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cellp2_module' and 'Naic2_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 2 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 3 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'CaSRin_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 4 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 5 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 6 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 7 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 8 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 9 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 10 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 11 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cabuf_module' and 'Cad_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+Issue 12 is an ERROR:
+    Description: Connection in model 'CardiovascularSystem' between 'Cad_module' and 'IcaT_module' is not unique.
+    See section 2.15.4 in the CellML specification.
+    More information is available at: https://cellml-specification.readthedocs.io/en/latest/reference/formal_and_informative/specB15.html?issue=CONNECTION_UNIQUE
+    Stored item type: model
+
+The method "resolve_imports" found 3 issues:
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+    - Given model is a CellML 1.1 model, the parser will try to represent this model in CellML 2.0.
+no unresolved imports.
+Recorded 7 issues:
+Issue 0 is an ERROR:
+    Description: Variable 'ACh' in component 'Ifg_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 1 is an ERROR:
+    Description: Variable 'ACh' in component 'NES_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 2 is an ERROR:
+    Description: Variable 'ACh' in component 'IKACh_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 3 is an ERROR:
+    Description: Variable 'ACh' in component 'IKAChg_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 4 is an ERROR:
+    Description: Variable 'ACh' in component 'IcaL_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 5 is an ERROR:
+    Description: Variable 'ACh' in component 'CaSRin_module' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+Issue 6 is an ERROR:
+    Description: Variable 'ACh' in component 'NES' is initialised using variable 'ACh_dynamic', which is not a constant.
+    More information is available at: https://libcellml.org/documentation/guides/latest/runtime_codes/index?issue=ANALYSER_VARIABLE_NON_CONSTANT_INITIALISATION
+    Stored item type: variable
+
+3
+WARNING model is has some issues, see above. The model might still run with some of the above issuesbut it is recommended to fix them
+Testing to see if model opens in OpenCOR
+Model generation has been successful.

@@ -1,0 +1,7 @@
+vessel_name,                  param_name,       param_type,       min,        max,    name_for_plotting
+NES,EC50_beta1,        const,0.001,1000,EC50_{beta1}
+NES,EC50_beta2,        const,0.001,1000,EC50_{beta2}
+NES,EC50_Gs,        const,0.001,1000,EC50_{Gs}
+NES,AC_maxstimulated,        const,0.001,1,AC_{maxstimulated}
+NES,AC2cAMP_conversion,        const,0.001,1000,AC2cAMP_{conversion}
+NES,PDE_trans,        const,0.001,1,PDE_{trans}

@@ -86,6 +86,7 @@ def calc_spike_period(t, V, series_output=False):
     if series_output:
         return V
     peak_idxs, peak_properties = find_peaks(V)
+    #print("[debug](peak_idxs, peak_properties]=",peak_idxs, peak_properties)
     # TODO maybe check peak properties here
     if len(peak_idxs) < 2:
         # there aren't enough peaks to calculate a period
@@ -94,8 +95,50 @@ def calc_spike_period(t, V, series_output=False):
     else:
         # calculate the average period between peaks
         period = np.sum([t[peak_idxs[II+1]] - t[peak_idxs[II]] for II in range(len(peak_idxs)-1)])/(len(peak_idxs) - 1)
+        #print("[debug3]peak_V]=",V[peak_idxs])
+        #print("[debug3]period]=",period)
     return period
+    
+#calculate average maximum voltage
+@series_to_constant
+def calc_mean_max(t, V, series_output=False):
+    if series_output:
+        return V
+    peak_idxs, peak_properties = find_peaks(V)
+    #print("[debug](peak_idxs, peak_properties]=",peak_idxs, peak_properties)
+    # TODO maybe check peak properties here
+    if len(peak_idxs) < 2:
+        # there aren't enough peaks to calculate a period
+        # so set the period to the max time of the simulation
+        max_mean_V = t[-1]
+    else:
+        # calculate the average peak values
+        peak_values = V[peak_idxs]
+        max_mean_V = np.mean(peak_values)
+        #print("[debug1]peak_V=",peak_values)
+        #print("[debug1]max_mean_V=",max_mean_V)
+    return max_mean_V
 
+#calculate average maximum voltage
+@series_to_constant
+def calc_mean_min(t, V, series_output=False):
+    if series_output:
+        return V
+    #peaks_min, _ = find_peaks(-signal)
+    peak_idxs, peak_properties = find_peaks(-V)
+    #print("[debug](peak_idxs, peak_properties]=",peak_idxs, peak_properties)
+    # TODO maybe check peak properties here
+    if len(peak_idxs) < 2:
+        # there aren't enough peaks to calculate a period
+        # so set the period to the max time of the simulation
+        min_mean_V = t[-1]
+    else:
+        # calculate the average peak values
+        peak_values = V[peak_idxs]
+        min_mean_V = np.mean(peak_values)
+        #print("[debug2]peak_V=",peak_values)
+        #print("[debug2]min_mean_V=",min_mean_V)
+    return min_mean_V
 
 @series_to_constant
 def calc_spike_frequency_windowed(t, V, series_output=False, spike_min_thresh=-10):

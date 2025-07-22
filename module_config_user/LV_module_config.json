@@ -1,0 +1,107 @@
+[
+  {
+    "vessel_type":"LV_simple",
+    "BC_type":"nn",
+    "module_format":"cellml",
+    "module_file":"LV_modules.cellml",
+    "module_type":"LV_simple",
+    "entrance_ports":
+    [
+      {
+        "port_type":"use_port",
+        "variables":["u_se"]
+      }
+    ],
+    "exit_ports":
+    [
+      {
+        "port_type":"up_port",
+        "variables":["u_P"]
+      },
+      {
+        "port_type":"vlv_port",
+        "variables":["V_LV"]
+      }
+    ],
+    "variables_and_units":
+    [
+      ["u_se", "mmHg", "access", "boundary_condition"],
+      ["A", "ml", "access", "constant"],
+      ["Tcount", "second", "access", "constant"],
+      ["T_amax", "second", "access", "constant"],
+      ["T_dmax", "second", "access", "constant"],
+      ["K_amax", "dimensionless", "access", "constant"],
+      ["K_amin", "dimensionless", "access", "constant"],
+      ["K_dmax", "dimensionless", "access", "constant"],
+      ["K_dmin", "dimensionless", "access", "constant"],
+      ["alpha_1", "dimensionless", "access", "constant"],
+      ["alpha_2", "dimensionless", "access", "constant"],
+      ["A_a", "dimensionless", "access", "constant"],
+      ["B_a", "dimensionless", "access", "constant"],
+      ["A_d", "dimensionless", "access", "constant"],
+      ["B_d", "dimensionless", "access", "constant"],
+      ["l_0", "um", "access", "constant"],
+      ["R_af", "s_mmHg_per_ml", "access", "constant"],
+      ["C_af", "ml_per_mmHg", "access", "constant"],
+      ["I_af", "s2_mmHg_per_ml", "access", "constant"],
+      ["v_mv_init", "m3_per_second", "access", "constant"],
+      ["v_mv", "m3_per_second", "access", "variable"],
+      ["v_av_init", "m3_per_second", "access", "constant"],
+      ["v_av", "m3_per_second", "access", "variable"],
+      ["u_af_init", "mmHg", "access", "constant"],
+      ["u_af", "mmHg", "access", "variable"],
+      ["u_out", "mmHg", "access", "constant"],
+      ["X_D_init", "mole", "access", "constant"],
+      ["X_D", "mole", "access", "variable"],
+      ["X_A_init", "mole", "access", "constant"],
+      ["X_A", "mole", "access", "variable"],
+      ["lm_init", "um", "access", "constant"],
+      ["l_m", "um", "access", "variable"],
+      ["E_A_init", "mmHg_per_ml", "access", "constant"],
+      ["E_A", "mmHg_per_ml", "access", "variable"],
+      ["E_R_init", "mmHg_per_ml", "access", "constant"],
+      ["E_R", "mmHg_per_ml", "access", "variable"],
+      ["R_mv0", "s_mmHg_per_ml", "access", "constant"],
+      ["R_mv", "s_mmHg_per_ml", "access", "variable"],
+      ["R_av0", "s_mmHg_per_ml", "access", "constant"],
+      ["R_av", "s_mmHg_per_ml", "access", "variable"],
+      ["I_mv", "s2_mmHg_per_ml", "access", "constant"],
+      ["I_av", "s2_mmHg_per_ml", "access", "constant"],
+      ["u_P", "mmHg", "access", "variable"],
+      ["V_LV", "ml", "access", "variable"]
+    ]
+  },
+  {
+    "vessel_type":"vessel_test",
+    "BC_type":"nn",
+    "module_format":"cellml",
+    "module_file":"LV_modules.cellml",
+    "module_type":"vessel_test",
+    "entrance_ports":
+    [
+      {
+        "port_type":"up_port",
+        "variables":["u_P"]
+      },
+      {
+        "port_type":"vlv_port",
+        "variables":["V_LV"]
+      }
+    ],
+    "exit_ports":
+    [
+      {
+        "port_type":"volume_port",
+        "variables":["V"]
+      }
+    ],
+    "variables_and_units":
+    [
+      ["u_P", "mmHg", "access", "boundary_condition"],
+      ["V_LV", "ml", "access", "boundary_condition"],
+      ["k_V", "dimensionless", "access", "constant"],
+      ["k_P", "dimensionless", "access", "constant"],
+      ["V", "ml", "access", "variable"]
+    ]
+  }
+]

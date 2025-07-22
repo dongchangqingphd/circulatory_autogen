@@ -25,7 +25,7 @@
       },
       {
         "port_type":"PKA_port",
-        "variables":["PKA_new"],
+        "variables":["PKA"],
         "multi_port":"True"
       },
       {
@@ -43,7 +43,9 @@
     [
       ["ACh_init", "nM", "access", "boundary_condition"],
       ["ISO_init", "nM", "access", "boundary_condition"],
-      ["PDE_cAMP", "uM", "access", "constant"],
+      ["ACh_cof", "dimensionless", "access", "constant"],
+      ["ACh_cof2", "nM", "access", "constant"],
+      ["PDE_trans", "dimensionless", "access", "constant"],
       ["ACCa_max", "nmol_per_umeter2", "access", "constant"],
       ["Area_Ca", "umeter2", "access", "constant"],
       ["EC50_Ca", "nM", "access", "constant"],
@@ -69,6 +71,8 @@
       ["k_Gi", "dimensionless", "access", "constant"],
       ["AC_maxstimulated", "nmole", "access", "constant"],
       ["T_cAMPPKA", "uM", "access", "constant"],
+      ["PKA_max", "dimensionless", "access", "constant"],
+      ["EC50_cAMP", "uM", "access", "constant"],
       ["test_transp", "dimensionless", "access", "variable"],
       ["AC_basal", "nmole", "access", "variable"],
       ["cAMP_basal", "uM", "access", "variable"],
@@ -89,6 +93,7 @@
       ["ACh", "nM", "access", "variable"],
       ["ISO", "nM", "access", "variable"],
       ["PKA_new", "dimensionless", "access", "variable"],
+      ["PKA_out2", "dimensionless", "access", "variable"],
       ["cAMP_nif", "uM", "access", "variable"]
     ]
   },
@@ -163,6 +168,10 @@
         "variables":["ACh"]
       },
       {
+        "port_type":"ISO_port",
+        "variables":["ISO"]
+      },
+      {
         "port_type":"membrane_potential",
         "variables":["V"]
       }
@@ -184,6 +193,7 @@
       ["cAMP_nif", "uM", "access", "boundary_condition"],
       ["V", "millivolt", "access", "boundary_condition"],
       ["ACh", "nM", "access", "boundary_condition"],
+      ["ISO", "nM", "access", "boundary_condition"],
       ["cAMP_out2", "uM", "access", "variable"],
       ["ACh_shift", "millivolt", "access", "variable"],
       ["Iso_shift", "millivolt", "access", "variable"],
@@ -532,6 +542,10 @@
         "variables":["Ca_sub"]
       },
       {
+        "port_type":"PKA_port",
+        "variables":["PKA"]
+      },
+      {
         "port_type":"Cajd_port",
         "variables":["Ca_jsr"]
       }
@@ -547,6 +561,7 @@
     [
       ["Ca_sub", "millimolar", "access", "boundary_condition"],
       ["Ca_jsr", "millimolar", "access", "boundary_condition"],
+      ["PKA", "dimensionless", "access", "boundary_condition"],
       ["j_SRCarel", "millimolar_per_second", "access", "variable"]
     ]
   },
@@ -1059,7 +1074,7 @@
     [
       {
         "port_type":"PKA_port",
-        "variables":["PKA_new"]
+        "variables":["PKA"]
       },
       {
         "port_type":"RTONF_port",
@@ -1122,7 +1137,7 @@
       ["RTONF", "millivolt", "access", "boundary_condition"],
       ["Ca_sub", "millimolar", "access", "boundary_condition"],
       ["ACh", "millimolar", "access", "boundary_condition"],
-      ["PKA_new", "dimensionless", "access", "boundary_condition"],
+      ["PKA", "dimensionless", "access", "boundary_condition"],
       ["dL", "dimensionless", "access", "boundary_condition"],
       ["fL", "dimensionless", "access", "boundary_condition"],
       ["fCa", "dimensionless", "access", "boundary_condition"],
@@ -1144,8 +1159,12 @@
         "variables":["V"]
       },
       {
+        "port_type":"ISO_port",
+        "variables":["ISO"]
+      },
+      {
         "port_type":"PKA_port",
-        "variables":["PKA_new"]
+        "variables":["PKA"]
       }
     ],
     "exit_ports":
@@ -1161,7 +1180,8 @@
       ["k_dL", "millivolt", "access", "constant"],
       ["V_dL", "millivolt", "access", "constant"],
       ["V", "millivolt", "access", "boundary_condition"],
-      ["PKA_new", "dimensionless", "access", "boundary_condition"],
+      ["ISO", "nM", "access", "boundary_condition"],
+      ["PKA", "dimensionless", "access", "boundary_condition"],
       ["dL", "dimensionless", "access", "variable"]
     ]
   },
@@ -1349,7 +1369,7 @@
       },
       {
         "port_type":"PKA_port",
-        "variables":["PKA_new"]
+        "variables":["PKA"]
       },
       {
         "port_type":"ISO_port",
@@ -1374,7 +1394,7 @@
       ["Ko", "millimolar", "access", "global_constant"],
       ["RTONF", "millivolt", "access", "boundary_condition"],
       ["ISO", "nM", "access", "boundary_condition"],
-      ["PKA_new", "dimensionless", "access", "boundary_condition"],
+      ["PKA", "dimensionless", "access", "boundary_condition"],
       ["Nai", "millimolar", "access", "boundary_condition"],
       ["V", "millivolt", "access", "boundary_condition"],
       ["n", "dimensionless", "access", "boundary_condition"],
@@ -1395,7 +1415,7 @@
       },
       {
         "port_type":"PKA_port",
-        "variables":["PKA_new"]
+        "variables":["PKA"]
       }
     ],
     "exit_ports":
@@ -1408,7 +1428,7 @@
     "variables_and_units":
     [
       ["n_init", "dimensionless", "access", "constant"],
-      ["PKA_new", "dimensionless", "access", "boundary_condition"],
+      ["PKA", "dimensionless", "access", "boundary_condition"],
       ["V", "millivolt", "access", "boundary_condition"],
       ["n", "dimensionless", "access", "variable"]
     ]
@@ -1526,11 +1546,15 @@
     [
       {
         "port_type":"PKA_port",
-        "variables":["PKA_new"]
+        "variables":["PKA"]
       },
       {
         "port_type":"ENa_port",
         "variables":["E_Na"]
+      },
+      {
+        "port_type":"ISO_port",
+        "variables":["ISO"]
       },
       {
         "port_type":"INaK_NaI",
@@ -1558,7 +1582,8 @@
       ["V", "millivolt", "access", "boundary_condition"],
       ["Nai", "millimolar", "access", "boundary_condition"],
       ["E_Na", "millivolt", "access", "boundary_condition"],
-      ["PKA_new", "dimensionless", "access", "boundary_condition"],
+      ["ISO", "nM", "access", "boundary_condition"],
+      ["PKA", "dimensionless", "access", "boundary_condition"],
       ["i_NaK", "nanoA", "access", "variable"]
     ]
   },

@@ -1,0 +1,145 @@
+=== Final Three Lines ===
+501.5523536533333
+best fit params : [1.38242377e+02 1.00000000e-02 2.78946734e+02 3.55094437e-01]
+best cost       : 11.446848288701174
+param id complete
+=== Final Three Lines ===
+505.24023860666665
+best fit params : [1.37492553e+02 1.00000000e-02 5.16942684e+02 6.53168787e-01]
+best cost       : 11.44689660680979
+param id complete
+=== Final Three Lines ===
+508.92812355999996
+best fit params : [1.38132342e+02 1.00000000e-02 2.98503273e+03 9.39751594e-01]
+best cost       : 11.446803624855136
+param id complete
+=== Final Three Lines ===
+512.6160085133333
+best fit params : [1.38212496e+02 1.00000000e-02 2.43665603e+02 2.61050972e-01]
+best cost       : 11.446778461676583
+param id complete
+=== Final Three Lines ===
+516.3038934666666
+best fit params : [1.37963193e+02 1.00000000e-02 9.25775509e+02 8.05703321e-01]
+best cost       : 11.446746260694164
+param id complete
+=== Final Three Lines ===
+519.99177842
+best fit params : [1.37774143e+02 1.00000000e-02 3.86902050e+02 5.34421067e-01]
+best cost       : 11.446742896005585
+param id complete
+=== Final Three Lines ===
+523.6796633733333
+best fit params : [1.37399122e+02 1.00000000e-02 2.44967851e+02 2.66632753e-01]
+best cost       : 11.44667626400572
+param id complete
+=== Final Three Lines ===
+527.3675483266667
+best fit params : [1.37268318e+02 1.00000000e-02 4.24152278e+02 5.76580130e-01]
+best cost       : 11.446657136000667
+param id complete
+=== Final Three Lines ===
+531.05543328
+best fit params : [1.37869497e+02 1.00000000e-02 3.61412006e+02 5.01414227e-01]
+best cost       : 11.44665926512687
+param id complete
+=== Final Three Lines ===
+534.7433182333333
+best fit params : [1.36973030e+02 1.00000000e-02 1.92013633e+02 6.43351784e-02]
+best cost       : 11.44659940328409
+param id complete
+=== Final Three Lines ===
+538.4312031866666
+best fit params : [1.37008066e+02 1.00000000e-02 4.24799376e+02 5.77005687e-01]
+best cost       : 11.446561240580785
+param id complete
+=== Final Three Lines ===
+542.11908814
+best fit params : [1.36572038e+02 1.00000000e-02 1.41061620e+03 8.72756573e-01]
+best cost       : 11.446580083122802
+param id complete
+=== Final Three Lines ===
+545.8069730933333
+best fit params : [1.37482367e+02 1.00000000e-02 3.19364857e+02 4.35380091e-01]
+best cost       : 11.446557641955186
+param id complete
+=== Final Three Lines ===
+549.4948580466666
+best fit params : [1.38114004e+02 1.00000000e-02 2.41528083e+03 9.25263780e-01]
+best cost       : 11.446845371720423
+param id complete
+=== Final Three Lines ===
+553.182743
+best fit params : [1.37148957e+02 1.00000000e-02 1.53766268e+03 8.82652814e-01]
+best cost       : 11.446587769950526
+param id complete
+=== Final Three Lines ===
+556.8706279533333
+best fit params : [1.36740583e+02 1.00000000e-02 4.32498417e+02 5.83900057e-01]
+best cost       : 11.446433686643793
+param id complete
+=== Final Three Lines ===
+560.5585129066667
+best fit params : [1.36582088e+02 1.00000000e-02 3.07678709e+02 4.15229833e-01]
+best cost       : 11.446412420321199
+param id complete
+=== Final Three Lines ===
+564.24639786
+best fit params : [1.36423994e+02 1.00000000e-02 4.48028925e+02 5.98645606e-01]
+best cost       : 11.446383424505013
+param id complete
+=== Final Three Lines ===
+567.9342828133333
+best fit params : [1.36422978e+02 1.00000000e-02 2.38955826e+02 2.47933977e-01]
+best cost       : 11.446371895971096
+param id complete
+=== Final Three Lines ===
+571.6221677666666
+best fit params : [1.36398868e+02 1.00000000e-02 2.24000606e+02 1.97459953e-01]
+best cost       : 11.446345157232994
+param id complete
+=== Final Three Lines ===
+575.3100527199999
+best fit params : [1.36153245e+02 1.00000000e-02 1.95211430e+02 7.90481944e-02]
+best cost       : 11.446313866306612
+param id complete
+=== Final Three Lines ===
+578.9979376733334
+best fit params : [1.99495504e+00 7.49801819e+00 3.32382560e+03 3.24473670e-01]
+best cost       : 10.81221031569727
+param id complete
+=== Final Three Lines ===
+582.6858226266667
+best fit params : [1.36367885e+02 1.00000000e-02 4.32756955e+02 5.83698742e-01]
+best cost       : 11.446287876301957
+param id complete
+=== Final Three Lines ===
+586.37370758
+best fit params : [1.35940195e+02 1.00000000e-02 3.09119907e+02 4.18039458e-01]
+best cost       : 11.446261059210478
+param id complete
+=== Final Three Lines ===
+590.0615925333333
+best fit params : [1.36203954e+02 1.00000000e-02 5.92811489e+03 9.69660712e-01]
+best cost       : 11.446271858886746
+param id complete
+=== Final Three Lines ===
+593.7494774866666
+best fit params : [1.36336956e+02 1.00000000e-02 9.37365956e+02 8.07598571e-01]
+best cost       : 11.446260721061803
+param id complete
+=== Final Three Lines ===
+597.43736244
+best fit params : [1.35669381e+02 1.00000000e-02 6.21552588e+02 7.10685942e-01]
+best cost       : 11.44619314794249
+param id complete
+=== Final Three Lines ===
+601.1252473933333
+best fit params : [1.35737472e+02 1.00000000e-02 2.23295484e+03 9.19529384e-01]
+best cost       : 11.446197380193016
+param id complete
+=== Final Three Lines ===
+604.8131323466666
+best fit params : [1.35620359e+02 1.00000000e-02 3.26588844e+02 4.49258040e-01]
+best cost       : 11.446144728977554
+param id complete

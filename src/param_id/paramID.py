@@ -1807,14 +1807,14 @@ class OpencorParamID():
             if 'cost_convergence' not in self.ga_options.keys():
                 self.ga_options['cost_convergence'] = 0.0001
             if 'max_patience' not in self.ga_options.keys():
-                self.ga_options['max_patience'] = 2
+                self.ga_options['max_patience'] = 10
             if 'num_calls_to_function' not in self.ga_options.keys():
                 self.ga_options['num_calls_to_function'] = 10000
         else:
             self.ga_options = {}
             # self.ga_options['cost_type'] = 'MSE'
             self.ga_options['cost_convergence'] = 0.0001
-            self.ga_options['max_patience'] = 0.0001
+            self.ga_options['max_patience'] = 10
             self.ga_options['num_calls_to_function'] = 10000
         # self.cost_type = self.ga_options['cost_type']
         self.cost_type = self.obs_info["cost_type"]
@@ -2180,15 +2180,16 @@ class OpencorParamID():
                     with open(os.path.join(self.output_dir, 'best_param_vals_history.csv'), 'a') as file:
                         np.savetxt(file, param_vals_norm[:, 0].reshape(1,-1), fmt='%.5e', delimiter=', ')
                     
+                    print("[debug3][last_loss,cost[0]]=",last_loss,cost[0])
                     if last_loss is not None:
-                        if (cost[0]-last_loss) <1e-5:
+                        if abs(cost[0]-last_loss) <1e-7:
                             loss_repeat_counter += 1
                         else:
                             loss_repeat_counter = 0
                             last_loss = cost[0]
                     else:
                         last_loss = cost[0]
-                    #print("[debug3]loss_repeat_counter=",loss_repeat_counter)
+                    print("[debug3]loss_repeat_counter=",loss_repeat_counter)
                     # if cost is small enough then exit
                     if cost[0] < self.ga_options["cost_convergence"]:
                         print('Cost is less than cost aim, success!')
@@ -2721,7 +2722,7 @@ class OpencorParamID():
         # this subexperiment doesn't have any weighted observables, so no cost
         if num_weighted_obs == 0.0:
             return 0.0
-        
+        #print("[debug]num_weighted_obs=",num_weighted_obs)
         if len(self.obs_info["ground_truth_phase"]) == 0:
             phase = None
         if self.obs_info["ground_truth_phase"].all() == None:
@@ -2751,8 +2752,8 @@ class OpencorParamID():
             #print("[debug]const[const_idx]=",const[const_idx])
             #print("[debug]debug_costgt=",debug_costgt)
             #print("[debug][pred,GT]=",const[const_idx],debug_costgt)
-            #print("[debug]debug_costvec=",debug_costvec)
-            #print("[debug]debug_costweight=",debug_costweight)
+            #print("[debug]debug_type=",self.cost_type[obs_idx])
+            #print("[debug]const[const_idx]=",const[const_idx])
             cost_idx = self.cost_funcs_dict[self.cost_type[obs_idx]](const[const_idx], self.obs_info["ground_truth_const"][const_idx],
                                                    self.obs_info["std_const_vec"][const_idx], updated_weight_const_vec[const_idx])
             #print("[debug]cost_idx=",cost_idx)
@@ -2842,6 +2843,7 @@ class OpencorParamID():
                 phase_cost += self.cost_funcs_dict[self.cost_type[obs_idx]](phase_entry, obs_entry, std_entry, weight_entry)
         #print("[debug](cost,series_cost,amp_cost,phase_cost]=",cost,series_cost,amp_cost,phase_cost)
         cost = (cost + series_cost + amp_cost + phase_cost) / num_weighted_obs
+        #print("[debug](cost,series_cost,amp_cost,phase_cost]=",cost,series_cost,amp_cost,phase_cost)
 
         return cost
 

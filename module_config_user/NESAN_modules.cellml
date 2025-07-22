@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <model name="modules" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#">
     <!-- Your code goes here-->
-    <!--**************************SAN cell membrane potential module****************//-->
+    <!--**************************SAN cell membrane potential module****************//
+**************************NOTICE: need update empirical equation to bondgraph equation later, empirical equations may not accurate**********************//-->
     <component name="HH_simple">
         <variable name="t" public_interface="in" units="second"/>
         <!--some physical constant
@@ -57,16 +58,19 @@ universal gas constant-->
                 <apply>
                     <plus/>
                     <ci>i_f</ci>
-                    <ci>i_KACh</ci>
-                    <ci>i_to</ci>
-                    <ci>i_Na</ci>
-                    <ci>i_NaK</ci>
-                    <ci>i_NaCa</ci>
-                    <ci>i_Kur</ci>
-                    <ci>i_CaL</ci>
-                    <ci>i_Ks</ci>
                     <ci>i_Kr</ci>
+                    <ci>i_CaL</ci>
                     <ci>i_CaT</ci>
+                    <apply>
+                        <times/>
+                        <cn cellml:units="dimensionless">1.0</cn>
+                        <ci>i_NaCa</ci>
+                    </apply>
+                    <ci>i_NaK</ci>
+                    <ci>i_Ks</ci>
+                    <ci>i_Na</ci>
+                    <ci>i_to</ci>
+                    <ci>i_Kur</ci>
                 </apply>
             </apply>
             <!--classic formula-->
@@ -158,12 +162,17 @@ universal gas constant-->
     <component name="NES_experiments">
         <variable name="t" public_interface="in" units="second"/>
         <variable name="ACh_init" public_interface="in" units="nM"/>
-        <variable initial_value="ACh_init" name="ACh" public_interface="out" units="nM"/>
+        <variable name="ACh_cof" public_interface="in" units="dimensionless"/>
+        <variable name="ACh_cof2" public_interface="in" units="nM"/>
+        <variable name="ACh_dynamic" public_interface="out" units="nM"/>
+        <variable initial_value="ACh_dynamic" name="ACh" public_interface="out" units="nM"/>
         <variable name="ISO_init" public_interface="in" units="nM"/>
         <variable initial_value="ISO_init" name="ISO" public_interface="out" units="nM"/>
         <variable initial_value="2000" name="test_transp" public_interface="out" units="dimensionless"/>
         <variable name="cAMP_nif" public_interface="out" units="uM"/>
-        <variable name="PDE_cAMP" public_interface="in" units="uM"/>
+        <!--var PDE_cAMP: uM {pub: in};-->
+        <variable name="PDE_trans" public_interface="in" units="dimensionless"/>
+        <!--var PDE_trans: dimensionless {pub: in};-->
         <!--basal CaMKII mechanism maintain basal cAMP/Ca ion balance in cell-->
         <variable name="cAMP_basal" public_interface="out" units="uM"/>
         <variable name="AC_basal" public_interface="out" units="nmole"/>
@@ -196,7 +205,7 @@ universal gas constant-->
         <variable name="Gs_beta1" public_interface="out" units="nmole"/>
         <!--high ISO lead to beta2-AR bind Gi-->
         <variable name="PKA_init" public_interface="in" units="dimensionless"/>
-        <variable initial_value="PKA_init" name="PKA" public_interface="out" units="dimensionless"/>
+        <variable name="PKA" public_interface="out" units="dimensionless"/>
         <variable name="T_PKAPbeta2" public_interface="in" units="dimensionless"/>
         <variable name="Gi_beta2" public_interface="out" units="nmole"/>
         <variable name="k_b2coupleGi" public_interface="in" units="dimensionless"/>
@@ -211,8 +220,23 @@ universal gas constant-->
         <variable name="cAMP" public_interface="out" units="uM"/>
         <variable name="T_cAMPPKA" public_interface="in" units="uM"/>
         <variable name="PKA_new" public_interface="out" units="dimensionless"/>
-        <!--//*****************simplified equations about Ca to cAMP basal********************////-->
+        <variable name="cAMP_t" units="uM"/>
+        <variable name="PDE_cAMP" units="uM"/>
+        <variable name="cAMP_basal2" units="uM"/>
+        <variable initial_value="0" name="PKA_out" units="dimensionless"/>
+        <variable name="PKA_out2" public_interface="out" units="dimensionless"/>
+        <!--//*****************add dynamic cofficient to ACh********************////-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>ACh_dynamic</ci>
+                <apply>
+                    <plus/>
+                    <ci>ACh_init</ci>
+                    <ci>ACh_cof2</ci>
+                </apply>
+            </apply>
+            <!--//*****************simplified equations about Ca to cAMP basal********************////-->
             <apply>
                 <eq/>
                 <ci>AC_basal</ci>
@@ -245,11 +269,24 @@ universal gas constant-->
             </apply>
             <apply>
                 <eq/>
-                <ci>cAMP_basal</ci>
+                <ci>cAMP_basal2</ci>
                 <apply>
                     <times/>
                     <ci>AC2cAMP_conversion</ci>
                     <ci>AC_basal</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>cAMP_basal</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <ci>cAMP_basal2</ci>
+                        <cn cellml:units="dimensionless">0.0</cn>
+                    </apply>
+                    <cn cellml:units="uM">33</cn>
                 </apply>
             </apply>
             <!--//*****************simplified equations about ACh to Gi********************////-->
@@ -420,7 +457,7 @@ universal gas constant-->
                         <cn cellml:units="nmole">0</cn>
                         <apply>
                             <lt/>
-                            <ci>PKA</ci>
+                            <ci>PKA_init</ci>
                             <ci>T_PKAPbeta2</ci>
                         </apply>
                     </piece>
@@ -446,7 +483,7 @@ universal gas constant-->
                         </apply>
                         <apply>
                             <lt/>
-                            <ci>PKA</ci>
+                            <ci>PKA_init</ci>
                             <ci>T_PKAPbeta2</ci>
                         </apply>
                     </piece>
@@ -521,80 +558,89 @@ universal gas constant-->
             <!--//*****************simplified equations about total cAMP product********************////-->
             <apply>
                 <eq/>
-                <ci>cAMP_nif</ci>
+                <ci>cAMP_t</ci>
                 <apply>
-                    <times/>
-                    <apply>
-                        <plus/>
-                        <ci>PDE_cAMP</ci>
-                        <ci>cAMP_basal</ci>
-                        <ci>cAMP</ci>
-                    </apply>
-                    <cn cellml:units="dimensionless">1</cn>
+                    <plus/>
+                    <ci>cAMP</ci>
+                    <ci>cAMP_basal</ci>
                 </apply>
             </apply>
-            <!--//*****************simplified equation parameters about cAMP to PKA********************////
-therefore, the PKA range is [0.0296->0.808->0.9922] while cAMP from 0 to infinity-->
+            <apply>
+                <eq/>
+                <ci>PDE_cAMP</ci>
+                <apply>
+                    <times/>
+                    <ci>cAMP</ci>
+                    <ci>PDE_trans</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>cAMP_nif</ci>
+                <apply>
+                    <minus/>
+                    <ci>cAMP_t</ci>
+                    <ci>PDE_cAMP</ci>
+                </apply>
+            </apply>
+        </math>
+        <!--//*****************simplified equation parameters about cAMP to PKA********************////
+therefore, the PKA range is [0.0296->0.808->0.9922] while cAMP from 0 to infinity
+if cAMP from basal to max, [33,147], the PKA range is [0.72,0.97]-->
+        <!--        PKA_new = sel
+            case cAMP_nif < T_cAMPPKA:
+                -0.9483029{dimensionless}*exp(-1{per_uM}*cAMP_nif*0.039368874{dimensionless})+0.97781646{dimensionless};
+            otherwise:
+                -0.45260509{dimensionless}*exp(-1{per_uM}*cAMP_nif*0.020370564{dimensionless})+0.99221714{dimensionless};
+        endsel;-->
+        <variable name="PKA_max" public_interface="in" units="dimensionless"/>
+        <variable name="EC50_cAMP" public_interface="in" units="uM"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
                 <ci>PKA_new</ci>
-                <piecewise>
-                    <piece>
-                        <apply>
-                            <plus/>
-                            <apply>
-                                <times/>
-                                <apply>
-                                    <minus/>
-                                    <cn cellml:units="dimensionless">0.9483</cn>
-                                </apply>
-                                <apply>
-                                    <exp/>
-                                    <apply>
-                                        <times/>
-                                        <apply>
-                                            <minus/>
-                                            <cn cellml:units="per_uM">1</cn>
-                                        </apply>
-                                        <ci>cAMP_nif</ci>
-                                        <cn cellml:units="dimensionless">0.0656</cn>
-                                    </apply>
-                                </apply>
-                            </apply>
-                            <cn cellml:units="dimensionless">0.9778</cn>
-                        </apply>
-                        <apply>
-                            <lt/>
-                            <ci>cAMP_nif</ci>
-                            <ci>T_cAMPPKA</ci>
-                        </apply>
-                    </piece>
-                    <otherwise>
-                        <apply>
-                            <plus/>
-                            <apply>
-                                <times/>
-                                <apply>
-                                    <minus/>
-                                    <cn cellml:units="dimensionless">0.4526</cn>
-                                </apply>
-                                <apply>
-                                    <exp/>
-                                    <apply>
-                                        <times/>
-                                        <apply>
-                                            <minus/>
-                                            <cn cellml:units="per_uM">1</cn>
-                                        </apply>
-                                        <ci>cAMP_nif</ci>
-                                        <cn cellml:units="dimensionless">0.0340</cn>
-                                    </apply>
-                                </apply>
-                            </apply>
-                            <cn cellml:units="dimensionless">0.9922</cn>
-                        </apply>
-                    </otherwise>
-                </piecewise>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>PKA_max</ci>
+                        <ci>cAMP_nif</ci>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <ci>EC50_cAMP</ci>
+                        <ci>cAMP_nif</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>PKA</ci>
+                <ci>PKA_new</ci>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>PKA_out</ci>
+                </apply>
+                <cn cellml:units="per_second">1</cn>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>PKA_out2</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <times/>
+                        <ci>PKA_out</ci>
+                        <cn cellml:units="dimensionless">0</cn>
+                    </apply>
+                    <ci>PKA</ci>
+                </apply>
             </apply>
         </math>
     </component>
@@ -1015,6 +1061,7 @@ global constant-->
         <variable name="t" public_interface="in" units="second"/>
         <variable name="Ca_sub" public_interface="in" units="millimolar"/>
         <variable name="Ca_jsr" public_interface="in" units="millimolar"/>
+        <variable name="PKA" public_interface="in" units="dimensionless"/>
         <variable name="j_SRCarel" public_interface="out" units="millimolar_per_second"/>
         <variable name="diff" units="millimolar"/>
         <variable name="P_tot" units="dimensionless"/>
@@ -1029,13 +1076,64 @@ global constant-->
         <variable initial_value="2.5" name="HSR" units="dimensionless"/>
         <variable name="koSRCa" units="per_millimolar2_second"/>
         <variable name="kiSRCa" units="per_millimolar_second"/>
-        <variable initial_value="10000" name="koCa" units="per_millimolar2_second"/>
+        <variable initial_value="10000" name="koCa_max" units="per_millimolar2_second"/>
+        <variable name="koCa" units="per_millimolar2_second"/>
         <variable initial_value="500" name="kiCa" units="per_millimolar_second"/>
         <variable name="kCaSR" units="dimensionless"/>
         <variable initial_value="5" name="kim" units="per_second"/>
         <variable initial_value="660" name="kom" units="per_second"/>
-        <!--the KoCa should calibrated by formula, but I don't know how to get RyR_min and other parameters, based on Linder's paper table4-->
+        <variable initial_value="0.0127" name="RyR_min" units="dimensionless"/>
+        <variable initial_value="0.02" name="RyR_max" units="dimensionless"/>
+        <variable initial_value="9.733" name="n_RyR" units="dimensionless"/>
+        <variable initial_value="0.682891" name="K05_RyR" units="dimensionless"/>
+        <!--PKA=[0.72,0.93],koCa=[9998.2,10063.6], based on Linder's paper table4
+this equation does hugely affect HR-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>koCa</ci>
+                <apply>
+                    <times/>
+                    <ci>koCa_max</ci>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <minus/>
+                            <ci>RyR_min</ci>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <times/>
+                                    <ci>RyR_max</ci>
+                                    <apply>
+                                        <power/>
+                                        <ci>PKA</ci>
+                                        <ci>n_RyR</ci>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <plus/>
+                                    <apply>
+                                        <power/>
+                                        <ci>K05_RyR</ci>
+                                        <ci>n_RyR</ci>
+                                    </apply>
+                                    <apply>
+                                        <power/>
+                                        <ci>PKA</ci>
+                                        <ci>n_RyR</ci>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                        <cn cellml:units="dimensionless">1</cn>
+                    </apply>
+                    <apply>
+                        <minus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                    </apply>
+                </apply>
+            </apply>
             <apply>
                 <eq/>
                 <ci>j_SRCarel</ci>
@@ -1825,6 +1923,7 @@ I don't know why consider y_shift-->
         <variable name="K_If" public_interface="in" units="millivolt"/>
         <variable name="K05_If" public_interface="in" units="uM"/>
         <variable name="ACh" public_interface="in" units="millimolar"/>
+        <variable name="ISO" public_interface="in" units="millimolar"/>
         <variable name="cAMP_nif" public_interface="in" units="uM"/>
         <variable name="V" public_interface="in" units="millivolt"/>
         <variable initial_value="0" name="cAMP_out" public_interface="out" units="dimensionless"/>
@@ -1835,6 +1934,7 @@ I don't know why consider y_shift-->
         <variable name="Iso_shift2" public_interface="out" units="millivolt"/>
         <variable name="tau_y" public_interface="out" units="second"/>
         <variable initial_value="y_init" name="y" public_interface="out" units="dimensionless"/>
+        <variable initial_value="9.281" name="n_if" units="dimensionless"/>
         <!--the EC50=1.26E-8M(close), max=-7.2,nf=0.69(close) in rabbit SAN cell, based on<Analysis of the Chronotropic Effect of Acetylcholine on Sinoatrial Node Cells>-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -1923,7 +2023,8 @@ endsel;-->
 n=7 (based on <Real-time relationship between PKA biochemical signal network dynamics and increased action potential firing rate in heart pacemaker cells> p6 that AP firing rate in response to ISO)
 according to Fabbri model, Iso_shift_max = 7.5mV, but not find the calculation formula, so just multiple a coefficient 1.33, <An updated computational model of rabbit sinoatrial action potential to investigate the mechanisms of heart rate modulation>
 need check later!!! the range is [-24.4,7.5],the original should multiple with 1.0e-6
-in here, we assume that protein concentration = 1000 mg/L, so K05_If=17.33 nM-->
+in here, we assume that protein concentration = 600 mg/L, so K05_If=29.79 uM
+if cAMP=[33.33,169], the Iso_shift2 range is [0.653,7.5]-->
             <apply>
                 <eq/>
                 <ci>Iso_shift2</ci>
@@ -1981,20 +2082,50 @@ in here, we assume that protein concentration = 1000 mg/L, so K05_If=17.33 nM-->
             <apply>
                 <eq/>
                 <ci>Iso_shift</ci>
-                <piecewise>
-                    <piece>
-                        <ci>Iso_shift2</ci>
+                <apply>
+                    <times/>
+                    <apply>
+                        <minus/>
                         <apply>
-                            <gt/>
-                            <ci>Iso_shift2</ci>
-                            <cn cellml:units="millivolt">0</cn>
+                            <divide/>
+                            <apply>
+                                <times/>
+                                <ci>K_If</ci>
+                                <apply>
+                                    <power/>
+                                    <ci>cAMP_nif</ci>
+                                    <ci>n_if</ci>
+                                </apply>
+                            </apply>
+                            <apply>
+                                <plus/>
+                                <apply>
+                                    <times/>
+                                    <cn cellml:units="dimensionless">1.0</cn>
+                                    <apply>
+                                        <power/>
+                                        <ci>K05_If</ci>
+                                        <ci>n_if</ci>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <power/>
+                                    <ci>cAMP_nif</ci>
+                                    <ci>n_if</ci>
+                                </apply>
+                            </apply>
                         </apply>
-                    </piece>
-                    <otherwise>
-                        <cn cellml:units="millivolt">0</cn>
-                    </otherwise>
-                </piecewise>
+                        <cn cellml:units="millivolt">18.76</cn>
+                    </apply>
+                    <cn cellml:units="dimensionless">1.00</cn>
+                </apply>
             </apply>
+            <!--        Iso_shift = sel
+            case Iso_shift2 > 0{millivolt}:
+                Iso_shift2;
+            otherwise:
+                0{millivolt};
+        endsel;-->
             <!--not totally match with the paper, add ACh and ISO influence factors
 from mathematic aspect, could explain that this coefficient could delay the I_f activate time-->
             <apply>
@@ -3014,7 +3145,7 @@ this paper's i_KACh equation different: <Analysis of the Chronotropic Effect of 
         <variable name="Nai" public_interface="in" units="millimolar"/>
         <variable name="V" public_interface="in" units="millivolt"/>
         <variable name="RTONF" public_interface="in" units="millivolt"/>
-        <variable name="PKA_new" public_interface="in" units="dimensionless"/>
+        <variable name="PKA" public_interface="in" units="dimensionless"/>
         <variable name="ACh" public_interface="in" units="millimolar"/>
         <variable name="dL" public_interface="in" units="dimensionless"/>
         <variable name="fL" public_interface="in" units="dimensionless"/>
@@ -3026,7 +3157,9 @@ this paper's i_KACh equation different: <Analysis of the Chronotropic Effect of 
         <variable name="ACh_block" units="dimensionless"/>
         <variable name="Iso_increase" units="dimensionless"/>
         <variable name="Iso_increase2" units="dimensionless"/>
-        <!--var ISO: nM {pub: in};-->
+        <!--var ISO: nM {pub: in};
+PKA=[0.72,0.97], Iso_increase2=[-2.478,0.1685]
+//those empirical equations need re-calibrate from bond graph equations later, linder_2025 only calibrate min/max values, and assume it is similar with HIll, maybe not accurate-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -3044,7 +3177,7 @@ this paper's i_KACh equation different: <Analysis of the Chronotropic Effect of 
                             <cn cellml:units="dimensionless">0.4707</cn>
                             <apply>
                                 <power/>
-                                <ci>PKA_new</ci>
+                                <ci>PKA</ci>
                                 <cn cellml:units="dimensionless">10.0808</cn>
                             </apply>
                         </apply>
@@ -3058,7 +3191,7 @@ this paper's i_KACh equation different: <Analysis of the Chronotropic Effect of 
                         </apply>
                         <apply>
                             <power/>
-                            <ci>PKA_new</ci>
+                            <ci>PKA</ci>
                             <cn cellml:units="dimensionless">10.0808</cn>
                         </apply>
                     </apply>
@@ -3365,14 +3498,15 @@ the EC50=9E-8M(same), max=0.56 in rabbit SAN cell, based on<Analysis of the Chro
         <variable name="k_dL" public_interface="in" units="millivolt"/>
         <variable name="V_dL" public_interface="in" units="millivolt"/>
         <!--add new equation about Iso_shift/Iso_slope that control by PKA, b-AR -> AC -> cAMP -> PKA-->
-        <variable name="PKA_new" public_interface="in" units="dimensionless"/>
+        <variable name="PKA" public_interface="in" units="dimensionless"/>
         <variable name="V" public_interface="in" units="millivolt"/>
-        <!--var ISO: nM {pub: in};-->
+        <variable name="ISO" public_interface="in" units="nM"/>
         <variable initial_value="dL_init" name="dL" public_interface="out" units="dimensionless"/>
-        <variable name="Iso_shift_dL2" units="millivolt"/>
-        <variable name="Iso_slope_dL2" units="dimensionless"/>
         <variable name="Iso_shift_dL" units="millivolt"/>
+        <variable name="Iso_shift_dL2" units="millivolt"/>
+        <variable name="Iso_shift_dL3" units="millivolt"/>
         <variable name="Iso_slope_dL" units="dimensionless"/>
+        <variable name="Iso_slope_dL2" units="dimensionless"/>
         <variable name="dL_infinity" units="dimensionless"/>
         <variable name="tau_dL" units="second"/>
         <variable name="alpha_dL" units="per_second"/>
@@ -3394,7 +3528,8 @@ endsel;-->
 endsel;-->
         <!--add new equation about Iso_shift/Iso_slope that control by PKA, b-AR -> AC -> cAMP -> PKA, from Linder's paper table2
 the Iso_shift_dL2 range is [18.76,-8.14], the Iso_slope_dL2 range is [0.657,0.935]
-calibrated by original formula, the Iso_shift_dL should not be positive value-->
+calibrated by original formula, the Iso_shift_dL should not be positive value
+PKA=[0.72,0.97], Iso_shift_dL2=[-0.1526,-8]-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -3411,10 +3546,10 @@ calibrated by original formula, the Iso_shift_dL should not be positive value-->
                             <divide/>
                             <apply>
                                 <times/>
-                                <cn cellml:units="dimensionless">27.5262</cn>
+                                <cn cellml:units="dimensionless">27.5262256</cn>
                                 <apply>
                                     <power/>
-                                    <ci>PKA_new</ci>
+                                    <ci>PKA</ci>
                                     <cn cellml:units="dimensionless">9.281</cn>
                                 </apply>
                             </apply>
@@ -3422,12 +3557,12 @@ calibrated by original formula, the Iso_shift_dL should not be positive value-->
                                 <plus/>
                                 <apply>
                                     <power/>
-                                    <cn cellml:units="dimensionless">0.6615</cn>
+                                    <cn cellml:units="dimensionless">0.661450</cn>
                                     <cn cellml:units="dimensionless">9.281</cn>
                                 </apply>
                                 <apply>
                                     <power/>
-                                    <ci>PKA_new</ci>
+                                    <ci>PKA</ci>
                                     <cn cellml:units="dimensionless">9.281</cn>
                                 </apply>
                             </apply>
@@ -3436,14 +3571,15 @@ calibrated by original formula, the Iso_shift_dL should not be positive value-->
                     </apply>
                 </apply>
             </apply>
-            <!--if directly use Iso_shift_dL2, need Iso>0.095 that activate the Iso_shift_dL2 make it lower than 0
-Iso_shift_dL = Iso_shift_dL2;-->
             <apply>
                 <eq/>
-                <ci>Iso_shift_dL</ci>
+                <ci>Iso_shift_dL3</ci>
                 <piecewise>
                     <piece>
-                        <cn cellml:units="millivolt">0</cn>
+                        <apply>
+                            <minus/>
+                            <cn cellml:units="millivolt">8</cn>
+                        </apply>
                         <apply>
                             <gt/>
                             <ci>Iso_shift_dL2</ci>
@@ -3455,9 +3591,52 @@ Iso_shift_dL = Iso_shift_dL2;-->
                     </otherwise>
                 </piecewise>
             </apply>
+            <apply>
+                <eq/>
+                <ci>Iso_shift_dL</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <minus/>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <times/>
+                                    <cn cellml:units="dimensionless">2.2</cn>
+                                    <ci>Iso_shift_dL3</ci>
+                                </apply>
+                                <cn cellml:units="dimensionless">8.0</cn>
+                            </apply>
+                            <cn cellml:units="millivolt">5.8</cn>
+                        </apply>
+                        <apply>
+                            <gt/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="nM">0</cn>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <cn cellml:units="millivolt">0</cn>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <!---5.8{millivolt};-->
+            <!--        Iso_shift_dL2 = -1{millivolt}*(27.5262{dimensionless}*pow(PKA_new, 9.281{dimensionless})/(pow(0.6615{dimensionless}, 9.281{dimensionless})+pow(PKA_new, 9.281{dimensionless}))-18.76{dimensionless});-->
+            <!--        //if directly use Iso_shift_dL2, need Iso>0.095 that activate the Iso_shift_dL2 make it lower than 0
+        //Iso_shift_dL = Iso_shift_dL2;-->
+            <!--        Iso_shift_dL = sel
+            case Iso_shift_dL2 > 0{millivolt}:
+                0{millivolt};
+            otherwise:
+                //Iso_shift_dL2;
+                2.2{dimensionless}*Iso_shift_dL2/8.0{dimensionless}-5.8{millivolt};
+        endsel;-->
             <!--I don't know why substract 17 then the results of I_CaL are similar with original results while set Iso=0.1!!!
 based on the PKA range is [0.0296,0.9922], so the Iso_slope_dL2 range is [2.0782,0.6572]
-maybe the key is make Iso_slope_dL2 lower than 1(the I_CaL activated only Iso>0.95, that while PKA>0.76, then make Iso_slope_dL2<1)-->
+maybe the key is make Iso_slope_dL2 lower than 1(the I_CaL activated only Iso>0.95, that while PKA>0.76, then make Iso_slope_dL2<1)
+PKA=[0.72,0.97], Iso_slope_dL2=[1.059,0.69]
+Iso_slope_dL2 = -1.4762{dimensionless}*PKA_new+2.1219{dimensionless};
+PKA=[0.72,0.97], Iso_slope_dL2=[0.98932,0.69], from new supplementary -->
             <apply>
                 <eq/>
                 <ci>Iso_slope_dL2</ci>
@@ -3467,11 +3646,11 @@ maybe the key is make Iso_slope_dL2 lower than 1(the I_CaL activated only Iso>0.
                         <times/>
                         <apply>
                             <minus/>
-                            <cn cellml:units="dimensionless">1.4762</cn>
+                            <cn cellml:units="dimensionless">1.199</cn>
                         </apply>
-                        <ci>PKA_new</ci>
+                        <ci>PKA</ci>
                     </apply>
-                    <cn cellml:units="dimensionless">2.1219</cn>
+                    <cn cellml:units="dimensionless">1.8526</cn>
                 </apply>
             </apply>
             <!--increase the constant value could make the cycle more longer, but sometimes Iso=0 CANNOT active the current
@@ -3479,9 +3658,26 @@ Iso_slope_dL = Iso_slope_dL2 - 0.0{dimensionless};-->
             <apply>
                 <eq/>
                 <ci>Iso_slope_dL</ci>
-                <cn cellml:units="dimensionless">0</cn>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <minus/>
+                            <cn cellml:units="dimensionless">27</cn>
+                        </apply>
+                        <apply>
+                            <gt/>
+                            <ci>ISO</ci>
+                            <cn cellml:units="nM">0</cn>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <cn cellml:units="dimensionless">0</cn>
+                    </otherwise>
+                </piecewise>
             </apply>
-            <!--this formula is different from paper-->
+            <!--modify the euqation, make it suit to new Iso_slope_dL2 equation
+dL_infinity = 1{dimensionless}/(1{dimensionless}+exp(-(V-V_dL-Iso_shift_dL)/(k_dL*(Iso_slope_dL))));
+this formula is different from Linder's paper-->
             <apply>
                 <eq/>
                 <ci>dL_infinity</ci>
@@ -3897,11 +4093,13 @@ Iso_slope_dL = Iso_slope_dL2 - 0.0{dimensionless};-->
         <variable name="Nai" public_interface="in" units="millimolar"/>
         <variable name="V" public_interface="in" units="millivolt"/>
         <variable name="E_Na" public_interface="in" units="millivolt"/>
-        <variable name="PKA_new" public_interface="in" units="dimensionless"/>
+        <variable name="PKA" public_interface="in" units="dimensionless"/>
+        <variable name="ISO" public_interface="in" units="nM"/>
         <variable name="i_NaK" public_interface="out" units="nanoA"/>
         <variable name="Iso_increase" units="dimensionless"/>
         <variable name="Iso_increase2" units="dimensionless"/>
-        <!--the Iso_increase2 range is [-7.38,0.20]-->
+        <!--the Iso_increase2 range is [-7.38,0.20]
+PKA=[0.72,0.97], Iso_increase2=[-2.478,0.14]-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -3919,7 +4117,7 @@ Iso_slope_dL = Iso_slope_dL2 - 0.0{dimensionless};-->
                             <cn cellml:units="dimensionless">0.4357</cn>
                             <apply>
                                 <power/>
-                                <ci>PKA_new</ci>
+                                <ci>PKA</ci>
                                 <cn cellml:units="dimensionless">10.0808</cn>
                             </apply>
                         </apply>
@@ -3933,26 +4131,30 @@ Iso_slope_dL = Iso_slope_dL2 - 0.0{dimensionless};-->
                         </apply>
                         <apply>
                             <power/>
-                            <ci>PKA_new</ci>
+                            <ci>PKA</ci>
                             <cn cellml:units="dimensionless">10.0808</cn>
                         </apply>
                     </apply>
                 </apply>
             </apply>
+            <!--        Iso_increase = sel
+            case Iso_increase2 > 0{dimensionless}:
+                Iso_increase2+1.0{dimensionless};
+            otherwise:
+                1{dimensionless};
+        endsel;-->
+            <!--add a enhanced coefficient
+original Fabbri fitting-->
             <apply>
                 <eq/>
                 <ci>Iso_increase</ci>
                 <piecewise>
                     <piece>
-                        <apply>
-                            <plus/>
-                            <ci>Iso_increase2</ci>
-                            <cn cellml:units="dimensionless">1.0</cn>
-                        </apply>
+                        <cn cellml:units="dimensionless">1.2</cn>
                         <apply>
                             <gt/>
-                            <ci>Iso_increase2</ci>
-                            <cn cellml:units="dimensionless">0</cn>
+                            <ci>ISO</ci>
+                            <cn cellml:units="nM">0</cn>
                         </apply>
                     </piece>
                     <otherwise>
@@ -3960,14 +4162,6 @@ Iso_slope_dL = Iso_slope_dL2 - 0.0{dimensionless};-->
                     </otherwise>
                 </piecewise>
             </apply>
-            <!--add a enhanced coefficient
-original Fabbri fitting
-Iso_increase = sel
-    case Iso_1_nM > 0{dimensionless}:
-        1.2{dimensionless};
-    otherwise:
-        1{dimensionless};
-endsel;-->
             <apply>
                 <eq/>
                 <ci>i_NaK</ci>
@@ -4797,7 +4991,7 @@ endsel;-->
         <variable name="Nai" public_interface="in" units="millimolar"/>
         <variable name="RTONF" public_interface="in" units="millivolt"/>
         <variable name="ISO" public_interface="in" units="nM"/>
-        <variable name="PKA_new" public_interface="in" units="dimensionless"/>
+        <variable name="PKA" public_interface="in" units="dimensionless"/>
         <variable name="n" public_interface="in" units="dimensionless"/>
         <variable name="i_Ks" public_interface="out" units="nanoA"/>
         <variable name="Iso_increase2" units="dimensionless"/>
@@ -4808,7 +5002,8 @@ endsel;-->
         <!--define Iso_increase value
 from this article <Isoprenaline: A Potential Contributor in Sick Sinus Syndrome—Insights from a Mathematical Model of the Rabbit Sinoatrial Node>, the result current should be new_I_ks=old_I_ks*(1+Iso_increase)
 the Iso_increase2 range is [-7.38,0.20]
-Iso_increase = Iso_increase2+1{dimensionless};-->
+Iso_increase = Iso_increase2+1{dimensionless};
+PKA=[0.72,0.97], Iso_increase2=[-2.478,0.14]-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -4823,10 +5018,10 @@ Iso_increase = Iso_increase2+1{dimensionless};-->
                         </apply>
                         <apply>
                             <times/>
-                            <cn cellml:units="dimensionless">0.4357</cn>
+                            <cn cellml:units="dimensionless">0.435692</cn>
                             <apply>
                                 <power/>
-                                <ci>PKA_new</ci>
+                                <ci>PKA</ci>
                                 <cn cellml:units="dimensionless">10.0808</cn>
                             </apply>
                         </apply>
@@ -4835,12 +5030,12 @@ Iso_increase = Iso_increase2+1{dimensionless};-->
                         <plus/>
                         <apply>
                             <power/>
-                            <cn cellml:units="dimensionless">0.7042</cn>
+                            <cn cellml:units="dimensionless">0.704217</cn>
                             <cn cellml:units="dimensionless">10.0808</cn>
                         </apply>
                         <apply>
                             <power/>
-                            <ci>PKA_new</ci>
+                            <ci>PKA</ci>
                             <cn cellml:units="dimensionless">10.0808</cn>
                         </apply>
                     </apply>
@@ -4867,7 +5062,6 @@ Iso_increase = Iso_increase2+1{dimensionless};-->
                     </otherwise>
                 </piecewise>
             </apply>
-            <!--add a switch coefficient that shift the voltage value, I think it will make this channel current shift-->
             <apply>
                 <eq/>
                 <ci>g_Ks</ci>
@@ -4945,7 +5139,7 @@ Iso_increase = Iso_increase2+1{dimensionless};-->
         <variable name="t" public_interface="in" units="second"/>
         <variable name="n_init" public_interface="in" units="dimensionless"/>
         <variable name="V" public_interface="in" units="millivolt"/>
-        <variable name="PKA_new" public_interface="in" units="dimensionless"/>
+        <variable name="PKA" public_interface="in" units="dimensionless"/>
         <variable initial_value="n_init" name="n" public_interface="out" units="dimensionless"/>
         <variable name="Iso_shift" units="millivolt"/>
         <variable name="alpha_n" units="per_second"/>
@@ -4955,7 +5149,8 @@ Iso_increase = Iso_increase2+1{dimensionless};-->
         <variable name="tau_n" units="second"/>
         <!--add new equation about Iso_shift that control by PKA, b-AR -> AC -> cAMP -> PKA, from Linder's paper table3
 the Iso_shift2 range is [18.76,-14.3]
-the same as I_CaL and I_f, usually need Iso_shift2 lower than 0-->
+the same as I_CaL and I_f, usually need Iso_shift2 lower than 0
+PKA=[0.72,0.97], Iso_shift2=[-0.226,-14]-->
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
                 <eq/>
@@ -4972,10 +5167,10 @@ the same as I_CaL and I_f, usually need Iso_shift2 lower than 0-->
                             <divide/>
                             <apply>
                                 <times/>
-                                <cn cellml:units="dimensionless">34.4376</cn>
+                                <cn cellml:units="dimensionless">34.43755</cn>
                                 <apply>
                                     <power/>
-                                    <ci>PKA_new</ci>
+                                    <ci>PKA</ci>
                                     <cn cellml:units="dimensionless">9.281</cn>
                                 </apply>
                             </apply>
@@ -4983,12 +5178,12 @@ the same as I_CaL and I_f, usually need Iso_shift2 lower than 0-->
                                 <plus/>
                                 <apply>
                                     <power/>
-                                    <cn cellml:units="dimensionless">0.7042</cn>
+                                    <cn cellml:units="dimensionless">0.704217</cn>
                                     <cn cellml:units="dimensionless">9.281</cn>
                                 </apply>
                                 <apply>
                                     <power/>
-                                    <ci>PKA_new</ci>
+                                    <ci>PKA</ci>
                                     <cn cellml:units="dimensionless">9.281</cn>
                                 </apply>
                             </apply>

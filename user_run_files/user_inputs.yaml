@@ -1,6 +1,6 @@
 #_______ general inputs ________
 DEBUG: false
-user_inputs_path_override: false
+user_inputs_path_override: /home/cdon822/Documents/GIT_files/CA_user/NEs_to_SAN/user_run_files/NESAN_model_user_inputs.yaml
 file_prefix: SANHR10
 # input_param_file must be stored in resources. If first creating a parameters file 
 # set this to parameters_orig.csv and a 

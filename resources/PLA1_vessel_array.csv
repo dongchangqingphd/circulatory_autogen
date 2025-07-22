@@ -1,0 +1,5 @@
+name,                    BC_type,     vessel_type,        inp_vessels,          out_vessels
+If,nn,i_f,Ifg,hrv
+Ifg,nn,i_f_y_gate,hrv  NES,             If
+hrv,nn,HH_simple,If,Ifg
+NES,nn,NES_experiments,,Ifg

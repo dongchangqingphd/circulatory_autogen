@@ -1,0 +1,35 @@
+=== Final Three Lines ===
+0.7322412285000001
+best fit params : [  0.93036942 768.58293022 342.22962973  19.22447747]
+best cost       : 0.7719521866130448
+param id complete
+=== Final Three Lines ===
+0.7593612740000001
+best fit params : [  0.90268274 500.95271564 339.95669575  19.4379679 ]
+best cost       : 0.7413733911875319
+param id complete
+=== Final Three Lines ===
+0.7864813195000001
+best fit params : [  0.81368312 275.59970845 346.33501487  19.75193524]
+best cost       : 0.7266257835507336
+param id complete
+=== Final Three Lines ===
+0.813601365
+best fit params : [264.502056 0.5]
+best cost       : 0.710
+param id complete
+=== Final Three Lines ===
+0.8407214105
+best fit params : [  0.90797034 245.43616313 353.81919393  19.34831299]
+best cost       : 0.7238318991836102
+param id complete
+=== Final Three Lines ===
+0.8678414560000001
+best fit params : [  0.83281904 184.39484123 340.70083278  19.67438001]
+best cost       : 0.7374496313308981
+param id complete
+=== Final Three Lines ===
+0.8949615015000001
+best fit params : [  1.05031724 406.95922329 350.34167511  18.91469992]
+best cost       : 0.7601056339823854
+param id complete

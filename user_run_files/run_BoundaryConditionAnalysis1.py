@@ -1,0 +1,158 @@
+import sys
+import numpy as np
+from opencor_helper import SimulationHelper
+import subprocess
+import csv
+import re
+import os
+#import pandas as pd
+
+#this script used for automatic run profile likelihood analysis for a set of calibrated parameters
+
+#read the configure file and change the specific value
+def update_csv_config(file_path, target_param, new_value):
+    rows = []
+
+    # read all lines
+    with open(file_path, 'r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if row[0] == target_param:
+                row[2] = str(new_value)
+            rows.append(row)
+
+    # re-write all lines
+    with open(file_path, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(rows)
+    print("[debug]update csv finished!")
+                
+#some address 
+model_name = "tpbinfer1"
+params_dir = "/home/cdon822/Documents/GIT_files/CA_user/NEs_to_SAN/resources/"
+out_dir = "../BoundaryCondition/"
+model_dir = "../generated_models"
+csv_ext = "_parameters.csv"
+txt_ext = "_summary.txt"
+csv2_ext = "_results.csv"
+
+filename1 = model_name + csv_ext
+csv_config_addr = os.path.join(params_dir,filename1)
+filename2 = model_name + txt_ext
+txt_config_addr = os.path.join(out_dir,filename2)
+filename3 = model_name + csv2_ext
+out_config_addr = os.path.join(out_dir,filename3)
+model_addr1 = os.path.join(params_dir,model_dir)
+model_addr2 = model_addr1 + "/" + model_name + "/" + model_name + ".cellml"
+print("[debug]address=",model_addr2)
+
+#some string
+std_str1 = "best fit params : [264.502056 0.5]"
+std_str2 = "best cost       : 0.710"
+std_str3 = "param id complete"
+
+
+
+#for specific parameter, start auto run PLA algorithM
+pv_name = 'IC50_M2_NES'
+pv = 264.502056
+low = 0.1
+high = 1.0
+reset_param_names = ['NES/ISO_init', 'NES/ACh_init']
+reset_param_val = [0.5,50]
+
+while (abs(high - low)>0.001):
+    mid = (high + low)/2.0
+    pv_new = pv*low
+    update_csv_config(csv_config_addr, pv_name, pv_new)
+    
+    #call shell scripts, re-generate model
+    subprocess.run(['bash', 'run_autogeneration.sh'])
+    
+    x = SimulationHelper(file_path, 0.0001, 15, pre_time=5)
+    
+    print("[debug]stop in here!")
+    exit()
+    
+for i in range(1,iter_num+2):
+    pv_new = start_value + (i-1)*step_interval
+    if abs(pv_new - pv) < 1e-6:
+        with open(txt_config_addr, 'a') as file1:
+            file1.write("=== Final Three Lines ===\n")
+            file1.write(str(pv_new) + '\n')
+            file1.write(std_str1 + '\n')
+            file1.write(std_str2 + '\n')
+            file1.write(std_str3 + '\n')
+        continue
+            
+    update_csv_config(csv_config_addr, pv_name, pv_new)
+    print("[debug]pv_new=",pv_new)
+    
+     #call shell scripts
+    subprocess.run(['bash', 'run_autogeneration.sh'])
+    #need save part of the log, so save all log first
+    result = subprocess.run(['./run_param_id.sh','128'],stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    lines = result.stdout.strip().splitlines()
+    last_two_lines = lines[-3:] if len(lines) >= 3 else lines
+    #add style save log into the result file
+    print("[debug]save_addr=",txt_config_addr)
+    with open(txt_config_addr, 'a') as file1:
+        file1.write("=== Final Three Lines ===\n")
+        file1.write(str(pv_new) + '\n')
+        for line in last_two_lines:
+            file1.write(line + '\n')
+    
+
+#then, transform txt data into excel data, easy to copy
+data = []
+#read txt file
+with open(txt_config_addr, 'r') as f:
+    lines = f.readlines()
+
+i = 0
+while i < len(lines):
+    line = lines[i].strip()
+
+    if line.startswith("===") and "Final Three Lines" in line:
+        # extract next 3 lines
+        value_line = lines[i + 1].strip()
+        params_line = lines[i + 2].strip()
+        cost_line = lines[i + 3].strip()
+
+        # extract values
+        try:
+            value = float(value_line)
+        except ValueError:
+            i += 1
+            continue
+
+        # extract parameters
+        params_match = re.search(r'\[(.*?)\]', params_line)
+        if params_match:
+            params_str = params_match.group(1)
+            params = [float(x) for x in params_str.strip().split()]
+        else:
+            params = []
+
+        # extract parameters
+        cost_match = re.search(r'best cost\s*:\s*([-+]?\d*\.\d+|\d+)', cost_line)
+        cost = float(cost_match.group(1)) if cost_match else None
+
+        # save parameters
+        data.append([value, cost, params])
+
+        i += 4  
+    else:
+        i += 1
+
+# write into Excel
+flattened_data = []
+for row in data:
+    value, cost, params = row
+    flattened_data.append([value, cost] + params)
+
+with open(out_config_addr, 'w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(['Value', 'Cost', 'Param1', 'Param2'])  
+    writer.writerows(flattened_data)
+
